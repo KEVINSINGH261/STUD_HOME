@@ -52,7 +52,7 @@ class ProprietaireController extends Controller
      */
     public function createAnnonce(): void
     {
-        $this->view('proprietaire/create-annonce', [
+        $this->view('proprietaire/creer-annonce', [
             'flash' => $this->getFlash()
         ]);
     }
@@ -87,6 +87,7 @@ class ProprietaireController extends Controller
         $validator->required('titre', 'Titre')
                   ->minLength('titre', 5, 'Titre')
                   ->maxLength('titre', 200, 'Titre')
+                  ->regex('titre', '/^[a-zA-ZÀ-ÿ0-9\s\'-]+$/u', 'Titre ne peut contenir que des lettres, chiffres, espaces, tirets et apostrophes')
                   
                   ->required('description', 'Description')
                   ->minLength('description', 20, 'Description')
@@ -98,6 +99,7 @@ class ProprietaireController extends Controller
                   ->required('ville', 'Ville')
                   ->minLength('ville', 2, 'Ville')
                   ->maxLength('ville', 100, 'Ville')
+                  ->regex('ville', '/^[a-zA-ZÀ-ÿ\s\'-]+$/u', 'Ville ne peut contenir que des lettres, espaces, tirets et apostrophes')
                   
                   ->required('prix', 'Prix')
                   ->numeric('prix', 'Prix')
@@ -106,7 +108,8 @@ class ProprietaireController extends Controller
         
         // Validations optionnelles
         if (!empty($postData['adresse'])) {
-            $validator->maxLength('adresse', 255, 'Adresse');
+            $validator->maxLength('adresse', 255, 'Adresse')
+                      ->regex('adresse', '/^[a-zA-ZÀ-ÿ0-9\s\'-]+$/u', 'Adresse ne peut contenir que des lettres, chiffres, espaces, tirets et apostrophes');
         }
         
         if (!empty($postData['code_postal'])) {

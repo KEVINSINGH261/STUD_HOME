@@ -196,9 +196,9 @@ class Validator
         $label = $label ?? $field;
         $value = $this->data[$field] ?? '';
         
-        if (!empty($value) && !in_array($value, $values, true)) {
-            $this->errors[$field][] = "{$label} contient une valeur non autorisée.";
-        }
+        // if (!empty($value) && !in_array($value, $values, true)) {
+        //     $this->errors[$field][] = "{$label} contient une valeur non autorisée.";
+        // }
         
         return $this;
     }
@@ -215,6 +215,43 @@ class Validator
         
         if (!empty($value) && !preg_match('/^[0-9]{5}$/', $value)) {
             $this->errors[$field][] = "{$label} doit être composé de 5 chiffres.";
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Valide qu'un champ ne contient que des lettres, chiffres, espaces et tirets
+     * @param string $field Nom du champ
+     * @param string $label Label pour les messages d'erreur
+     * @return self
+     */
+    public function alphanumericExtended(string $field, string $label = null): self
+    {
+        $label = $label ?? $field;
+        $value = $this->data[$field] ?? '';
+        
+        /*REGEX*/
+        if (!empty($value) && !preg_match('/^[a-zA-ZÀ-ÿ0-9\s\-\']+$/u', $value)) {
+            $this->errors[$field][] = "{$label} ne peut contenir que des lettres, chiffres, espaces et tirets.";
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Valide qu'un champ ne contient que des lettres et espaces
+     * @param string $field Nom du champ
+     * @param string $label Label pour les messages d'erreur
+     * @return self
+     */
+    public function alpha(string $field, string $label = null): self
+    {
+        $label = $label ?? $field;
+        $value = $this->data[$field] ?? '';
+        
+        if (!empty($value) && !preg_match('/^[a-zA-ZÀ-ÿ\s\-\']+$/u', $value)) {
+            $this->errors[$field][] = "{$label} ne peut contenir que des lettres, espaces et tirets.";
         }
         
         return $this;

@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Pagination AJAX pour les annonces
+ * Pagination pour les annonces
  */
 document.addEventListener('DOMContentLoaded', function() {
     const paginationContainer = document.getElementById('pagination-container');
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Charger les annonces via AJAX
+ * Charger les annonces
  */
 function loadAnnonces(page) {
     const container = document.getElementById('annonces-container');
@@ -144,7 +144,7 @@ function loadAnnonces(page) {
     const baseUrl = window.location.origin + window.location.pathname;
     const url = `${baseUrl}?page=${page}`;
     
-    // Requête AJAX
+    // Requête 
     fetch(url, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
