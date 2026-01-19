@@ -1,0 +1,270 @@
+/* ========================================
+   STUD_HOME - Paramètres des Cookies
+   ======================================== */
+
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #FF6B6B;
+    --secondary-color: #666;
+    --success-color: #10b981;
+    --danger-color: #FF6B6B;
+    --dark-color: #333;
+    --light-color: #f5f5f5;
+    --border-color: #e0e0e0;
+    --text-color: #333;
+    --white: #ffffff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--light-color);
+}
+
+/* === CONTAINER === */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* === COOKIES PAGE === */
+.cookies-page {
+    padding: 3rem 0;
+    min-height: 70vh;
+}
+
+.cookies-page h1 {
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+/* === COOKIES INTRO === */
+.cookies-intro {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cookies-intro p {
+    color: var(--secondary-color);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.cookies-intro p:last-child {
+    margin-bottom: 0;
+}
+
+/* === COOKIE CATEGORY === */
+.cookie-category {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cookie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cookie-header h3 {
+    color: var(--dark-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.cookie-description {
+    color: var(--secondary-color);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* === REQUIRED BADGE === */
+.required-badge {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: var(--white);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+/* === COOKIE EXAMPLES === */
+.cookie-examples {
+    background: var(--light-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.cookie-examples strong {
+    color: var(--dark-color);
+    font-size: 13px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.cookie-examples ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.cookie-examples li {
+    color: var(--secondary-color);
+    font-size: 13px;
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.cookie-examples li:before {
+    content: "•";
+    position: absolute;
+    left: 5px;
+    color: var(--primary-color);
+}
+
+/* === TOGGLE SWITCH === */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 26px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.toggle-switch input:disabled + .toggle-slider {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+/* === COOKIES ACTIONS === */
+.cookies-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding: 25px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* === BUTTONS === */
+.btn-primary,
+.btn-secondary {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: #ff5252;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--light-color);
+    color: var(--dark-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .cookies-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .cookie-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .cookies-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cookies-intro {
+        padding: 20px;
+    }
+
+    .cookie-category {
+        padding: 20px;
+    }
+}
