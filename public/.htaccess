@@ -1,0 +1,24 @@
+# Configuration Apache pour la réécriture d'URL
+# STUD_HOME - Gestion de Logements Étudiants
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirection du dossier public vers index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Protection des fichiers sensibles
+<FilesMatch "\.(env|ini|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Configuration PHP
+<IfModule mod_php.c>
+    php_value upload_max_filesize 5M
+    php_value post_max_size 5M
+    php_value max_execution_time 300
+</IfModule>
