@@ -4,6 +4,11 @@
  * STUD_HOME - Gestion de Logements Étudiants
  */
 
+// Activer l'affichage des erreurs pour le débogage
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 // Chargement de la configuration
 require_once '../config/config.php';
 
@@ -16,6 +21,7 @@ spl_autoload_register(function ($class) {
         APP_PATH . '/core/',
         APP_PATH . '/controllers/',
         APP_PATH . '/models/',
+        APP_PATH . '/services/',
         APP_PATH . '/helpers/',
         APP_PATH . '/middlewares/'
     ];

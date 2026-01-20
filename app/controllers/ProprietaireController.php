@@ -87,6 +87,7 @@ class ProprietaireController extends Controller
         $validator->required('titre', 'Titre')
                   ->minLength('titre', 5, 'Titre')
                   ->maxLength('titre', 200, 'Titre')
+                  ->regex('titre', '/^[a-zA-ZÀ-ÿ0-9\s\'-]+$/u', 'Titre ne peut contenir que des lettres, chiffres, espaces, tirets et apostrophes')
                   
                   ->required('description', 'Description')
                   ->minLength('description', 20, 'Description')
@@ -98,6 +99,7 @@ class ProprietaireController extends Controller
                   ->required('ville', 'Ville')
                   ->minLength('ville', 2, 'Ville')
                   ->maxLength('ville', 100, 'Ville')
+                  ->regex('ville', '/^[a-zA-ZÀ-ÿ\s\'-]+$/u', 'Ville ne peut contenir que des lettres, espaces, tirets et apostrophes')
                   
                   ->required('prix', 'Prix')
                   ->numeric('prix', 'Prix')
@@ -106,7 +108,8 @@ class ProprietaireController extends Controller
         
         // Validations optionnelles
         if (!empty($postData['adresse'])) {
-            $validator->maxLength('adresse', 255, 'Adresse');
+            $validator->maxLength('adresse', 255, 'Adresse')
+                      ->regex('adresse', '/^[a-zA-ZÀ-ÿ0-9\s\'-]+$/u', 'Adresse ne peut contenir que des lettres, chiffres, espaces, tirets et apostrophes');
         }
         
         if (!empty($postData['code_postal'])) {
@@ -168,12 +171,11 @@ class ProprietaireController extends Controller
                 $this->setFlash('warning', 'Annonce créée mais aucune image n\'a pu être uploadée. Vérifiez le format et la taille.');
             } else {
                 $this->setFlash('success', 'Annonce créée avec succès. ' . $uploadedCount . ' image(s) uploadée(s).');
-                $this->redirect('proprietaire/annonces');
-                return;
             }
+        } else {
+            $this->setFlash('success', 'Annonce créée avec succès (sans image).');
         }
         
-        $this->setFlash('success', 'Annonce créée avec succès (sans image).');
         $this->redirect('proprietaire/annonces');
     }
     
@@ -216,8 +218,7 @@ class ProprietaireController extends Controller
             return;
         }
         
-        // Récupération et validation des données
-        $postData = [
+        $data = [
             'titre' => $this->post('titre'),
             'description' => $this->post('description'),
             'type' => $this->post('type'),
@@ -411,6 +412,9 @@ class ProprietaireController extends Controller
         $nom = $validatedData['nom'];
         $prenom = $validatedData['prenom'];
         $email = $validatedData['email'];
+        $nom = $this->post('nom');
+        $prenom = $this->post('prenom');
+        $email = $this->post('email');
         $telephone = $this->post('telephone');
         $password = $this->post('password');
         

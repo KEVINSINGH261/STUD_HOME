@@ -98,14 +98,14 @@
                     <h2>Photos du logement</h2>
                     
                     <div class="form-group">
-                        <label for="photos">Ajouter des photos</label>
+                        <label for="photos">Photos (plusieurs possibles)</label>
                         <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
                         <small>Formats acceptés : JPG, PNG, GIF (max 5Mo par image). Vous pouvez sélectionner plusieurs images.</small>
                     </div>
 
                     <div id="preview-container" class="preview-container" style="display: none;">
-                        <p>Aperçu des images :</p>
-                        <div id="preview-images" class="preview-images-grid"></div>
+                        <p>Aperçu :</p>
+                        <img id="preview-image" src="" alt="Aperçu">
                     </div>
                 </div>
 
@@ -135,40 +135,16 @@
     <?php include VIEWS_PATH . '/partials/footer.php'; ?>
     
     <script>
-        // Aperçu des images multiples
-        document.getElementById('photos').addEventListener('change', function(e) {
-            const files = e.target.files;
-            const previewContainer = document.getElementById('preview-container');
-            const previewImages = document.getElementById('preview-images');
-            
-            if (files.length > 0) {
-                previewImages.innerHTML = '';
-                previewContainer.style.display = 'block';
-                
-                Array.from(files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const wrapper = document.createElement('div');
-                        wrapper.className = 'preview-image-wrapper';
-                        
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = 'Aperçu ' + (index + 1);
-                        
-                        if (index === 0) {
-                            const badge = document.createElement('span');
-                            badge.className = 'principal-badge';
-                            badge.textContent = 'Principale';
-                            wrapper.appendChild(badge);
-                        }
-                        
-                        wrapper.appendChild(img);
-                        previewImages.appendChild(wrapper);
-                    }
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                previewContainer.style.display = 'none';
+        // Aperçu de l'image
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-image').src = e.target.result;
+                    document.getElementById('preview-container').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
         });
 

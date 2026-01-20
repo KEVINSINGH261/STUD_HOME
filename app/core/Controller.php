@@ -13,6 +13,14 @@ abstract class Controller
     }
     
     /**
+     * Retourne la connexion à la base de données
+     */
+    protected function getDb(): PDO
+    {
+        return $this->db;
+    }
+    
+    /**
      * Charge une vue avec des données
      */
     protected function view(string $viewPath, array $data = []): void

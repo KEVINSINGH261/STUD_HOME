@@ -468,12 +468,19 @@ a {
     align-items: center;
     gap: 0.5rem;
     margin-top: 3rem;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
 }
 
 .page-link {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.75rem;
     width: 40px;
     height: 40px;
     border: 1px solid #ddd;
@@ -482,6 +489,8 @@ a {
     color: #333;
     font-weight: 500;
     transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.9rem;
 }
 
 .page-link:hover {

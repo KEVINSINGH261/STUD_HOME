@@ -10,6 +10,13 @@
                 </a>
             </div>
             
+            <!-- Bouton hamburger pour mobile -->
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
             <ul class="navbar-menu">
                 <li><a href="<?= APP_URL ?>">Accueil</a></li>
                 <li><a href="<?= APP_URL ?>/annonces">Annonces</a></li>
@@ -36,4 +43,36 @@
             </ul>
         </div>
     </nav>
+    
+    <!-- Script pour le menu mobile -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navbarMenu = document.querySelector('.navbar-menu');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navbarMenu.classList.toggle('active');
+                });
+                
+                // Fermer le menu quand on clique sur un lien
+                const menuLinks = document.querySelectorAll('.navbar-menu a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        menuToggle.classList.remove('active');
+                        navbarMenu.classList.remove('active');
+                    });
+                });
+                
+                // Fermer le menu si on clique en dehors
+                document.addEventListener('click', function(event) {
+                    if (!event.target.closest('.navbar')) {
+                        menuToggle.classList.remove('active');
+                        navbarMenu.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </header>

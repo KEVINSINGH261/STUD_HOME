@@ -1,7 +1,7 @@
 <?php
 /**
- * Configuration générale de l'application
- * STUD_HOME - Gestion de Logements Étudiants
+ * Configuration generale de l'application
+ * STUD_HOME - Gestion de Logements Etudiants
  */
 
 // Environnement (development | production)
@@ -21,7 +21,7 @@ define('VIEWS_PATH', ROOT . '/views');
 define('STORAGE_PATH', ROOT . '/storage');
 define('UPLOAD_PATH', PUBLIC_PATH . '/uploads');
 
-// Configuration de sécurité
+// Configuration de securite
 define('SESSION_LIFETIME', 3600); // 1 heure
 define('CSRF_TOKEN_NAME', '_csrf_token');
 define('PASSWORD_MIN_LENGTH', 8);

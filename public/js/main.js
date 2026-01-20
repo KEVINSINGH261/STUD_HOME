@@ -16,19 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
     
-    // Confirmation avant suppression avec modal personnalisée
+    // Confirmation avant suppression
     const deleteButtons = document.querySelectorAll('[data-confirm]');
     deleteButtons.forEach(function(button) {
         button.addEventListener('click', function(e) {
-            e.preventDefault();
             const message = this.getAttribute('data-confirm') || 'Êtes-vous sûr de vouloir supprimer cet élément ?';
-            const url = this.href || this.getAttribute('data-url');
-            
-            showConfirmModal(message, function() {
-                if (url) {
-                    window.location.href = url;
-                }
-            });
+            if (!confirm(message)) {
+                e.preventDefault();
+            }
         });
     });
     
@@ -36,20 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
-            const password = document.getElementById('password');
-            const passwordConfirm = document.getElementById('password_confirm');
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
             
-            if (password.value !== passwordConfirm.value) {
+            if (password !== passwordConfirm) {
                 e.preventDefault();
-                showErrorNotification('Les mots de passe ne correspondent pas.');
-                passwordConfirm.focus();
+                alert('Les mots de passe ne correspondent pas.');
                 return false;
             }
             
-            if (password.value.length < 8) {
+            if (password.length < 8) {
                 e.preventDefault();
-                showErrorNotification('Le mot de passe doit contenir au moins 8 caractères.');
-                password.focus();
+                alert('Le mot de passe doit contenir au moins 8 caractères.');
                 return false;
             }
         });
@@ -101,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Pagination AJAX pour les annonces
+ * Pagination pour les annonces
  */
 document.addEventListener('DOMContentLoaded', function() {
     const paginationContainer = document.getElementById('pagination-container');
@@ -128,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Charger les annonces via AJAX
+ * Charger les annonces
  */
 function loadAnnonces(page) {
     const container = document.getElementById('annonces-container');
@@ -144,7 +137,7 @@ function loadAnnonces(page) {
     const baseUrl = window.location.origin + window.location.pathname;
     const url = `${baseUrl}?page=${page}`;
     
-    // Requête AJAX
+    // Requête 
     fetch(url, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
@@ -205,3 +198,25 @@ function formatPrice(price) {
 }
 
 // Les fonctions de notification sont maintenant dans notifications.js
+/**
+ * Fonction pour afficher une notification
+ */
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `flash flash-${type}`;
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.zIndex = '9999';
+    notification.style.minWidth = '300px';
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(function() {
+        notification.style.opacity = '0';
+        setTimeout(function() {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}

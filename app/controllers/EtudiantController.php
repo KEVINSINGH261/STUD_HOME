@@ -185,6 +185,22 @@ class EtudiantController extends Controller
         
         if (!empty($validatedData['password'])) {
             $data['mot_de_passe'] = $validatedData['password'];
+        $nom = $this->post('nom');
+        $prenom = $this->post('prenom');
+        $email = $this->post('email');
+        $ecole = $this->post('ecole');
+        $password = $this->post('password');
+        
+        // Mise à jour de l'utilisateur
+        $utilisateurModel = $this->model('Utilisateur');
+        $data = [
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email
+        ];
+        
+        if (!empty($password)) {
+            $data['mot_de_passe'] = $password;
         }
         
         $utilisateurModel->updateProfile($this->getUserId(), $data);
@@ -192,6 +208,7 @@ class EtudiantController extends Controller
         // Mise à jour de l'école
         $etudiantModel = $this->model('Etudiant');
         $etudiantModel->updateEcole($this->getUserId(), $validatedData['ecole']);
+        $etudiantModel->updateEcole($this->getUserId(), $ecole);
         
         $this->setFlash('success', 'Profil mis à jour avec succès.');
         $this->redirect('etudiant/profile');

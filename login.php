@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stud'Home - Connexion</title>
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/connection.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#FF6B6B"/>
+                    <polyline points="9 22 9 12 15 12 15 22" fill="#fff"/>
+                </svg>
+                <span class="logo-text">STUD'HOME</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="<?= APP_URL ?>/" class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    Accueil
+                </a>
+                <a href="<?= APP_URL ?>/annonces" class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    Location
+                </a>
+                <a href="<?= APP_URL ?>/equipe" class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                    À propos
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn-primary" onclick="location.href='<?= APP_URL ?>/proprietaire/dashboard'">+ Déposer une annonce</button>
+                <button class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </button>
+                <button class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </button>
+                <button class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="hero-section">
+            <div class="hero-image">
+                <div class="image-overlay"></div>
+            </div>
+            
+            <div class="login-card">
+                <h1 class="login-title">Connectez vous</h1>
+                
+                <?php if (isset($flash) && $flash): ?>
+                    <div class="alert alert-<?= $flash['type'] ?>" style="margin-bottom: 20px; padding: 10px; border-radius: 5px; background: <?= $flash['type'] === 'success' ? '#d4edda' : '#f8d7da' ?>;">
+                        <?= $flash['message'] ?>
+                    </div>
+                <?php endif; ?>
+                
+                <form class="login-form" action="<?= APP_URL ?>/login/submit" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="votre@email.com" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" class="form-input" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Se connecter</button>
+                    
+                    <a href="#" class="forgot-password">Mot de passe oublié?</a>
+                </form>
+                
+                <div class="form-footer">
+                    <button class="btn-secondary" onclick="location.href='<?= APP_URL ?>/login'">Sign in</button>
+                    <button class="btn-secondary-dark" onclick="location.href='<?= APP_URL ?>/register'">S'inscrire</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Paramètres cookies</a>
+                <a href="<?= APP_URL ?>/equipe">À propos</a>
+                <a href="#">Protections des Données</a>
+                <a href="#">Nous Contacter</a>
+                <a href="#">Recrutement</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#fff"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#fff" stroke-width="2"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© B1Dev. STUD'HOME</p>
+        </div>
+    </footer>
+</body>
+</html>

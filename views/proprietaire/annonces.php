@@ -38,6 +38,8 @@
                             <div class="annonce-image">
                                 <?php if (!empty($annonce['image_principale'])): ?>
                                     <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['image_principale']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
+                                <?php elseif (!empty($annonce['photo'])): ?>
+                                    <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['photo']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
                                 <?php else: ?>
                                     <div class="no-image">
                                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
