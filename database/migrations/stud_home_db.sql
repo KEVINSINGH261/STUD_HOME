@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `annonces` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `proprietaire_id` int(11) NOT NULL,
   `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -42,7 +42,12 @@ CREATE TABLE `annonces` (
   `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `statut` enum('active','inactive') COLLATE utf8mb4_unicode_ci DEFAULT 'active',
   `date_creation` datetime DEFAULT CURRENT_TIMESTAMP,
-  `date_modification` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_modification` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_proprietaire` (`proprietaire_id`),
+  KEY `idx_ville` (`ville`),
+  KEY `idx_prix` (`prix`),
+  KEY `idx_statut` (`statut`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -165,15 +170,16 @@ CREATE TABLE `utilisateurs` (
 
 
 CREATE TABLE IF NOT EXISTS annonces_images (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    annonce_id INT NOT NULL,
-    chemin VARCHAR(255) NOT NULL,
-    ordre INT DEFAULT 0 COMMENT 'Ordre d''affichage',
-    est_principale BOOLEAN DEFAULT FALSE COMMENT 'Image principale de l''annonce',
-    date_ajout DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (annonce_id) REFERENCES annonces(id) ON DELETE CASCADE,
-    INDEX idx_annonce (annonce_id),
-    INDEX idx_ordre (ordre)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `annonce_id` int(11) NOT NULL,
+    `chemin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `ordre` int(11) DEFAULT 0 COMMENT 'Ordre d''affichage',
+    `est_principale` tinyint(1) DEFAULT 0 COMMENT 'Image principale de l''annonce',
+    `date_ajout` datetime DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`annonce_id`) REFERENCES `annonces`(`id`) ON DELETE CASCADE,
+    INDEX `idx_annonce` (`annonce_id`),
+    INDEX `idx_ordre` (`ordre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
