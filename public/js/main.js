@@ -16,19 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
     
-    // Confirmation avant suppression avec modal personnalisée
-    const deleteButtons = document.querySelectorAll('[data-confirm]');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const message = this.getAttribute('data-confirm') || 'Êtes-vous sûr de vouloir supprimer cet élément ?';
-            const url = this.href || this.getAttribute('data-url');
-            
-            showConfirmModal(message, function() {
-                if (url) {
-                    window.location.href = url;
-                }
-            });
     // Confirmation avant suppression
     const deleteButtons = document.querySelectorAll('[data-confirm]');
     deleteButtons.forEach(function(button) {
@@ -44,20 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
-            const password = document.getElementById('password');
-            const passwordConfirm = document.getElementById('password_confirm');
-            
-            if (password.value !== passwordConfirm.value) {
-                e.preventDefault();
-                showErrorNotification('Les mots de passe ne correspondent pas.');
-                passwordConfirm.focus();
-                return false;
-            }
-            
-            if (password.value.length < 8) {
-                e.preventDefault();
-                showErrorNotification('Le mot de passe doit contenir au moins 8 caractères.');
-                password.focus();
             const password = document.getElementById('password').value;
             const passwordConfirm = document.getElementById('password_confirm').value;
             

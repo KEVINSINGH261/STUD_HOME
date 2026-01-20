@@ -55,10 +55,6 @@ class EtudiantController extends Controller
             'favoris' => $favoris,
             'currentPage' => $page,
             'totalPages' => $totalPages,
-        $favoris = $favoriModel->findByEtudiant($this->getUserId());
-        
-        $this->view('etudiant/favoris', [
-            'favoris' => $favoris,
             'flash' => $this->getFlash()
         ]);
     }

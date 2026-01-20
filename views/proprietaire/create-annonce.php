@@ -95,12 +95,12 @@
 
                 <!-- Photo -->
                 <div class="form-section">
-                    <h2>Photo du logement</h2>
+                    <h2>Photos du logement</h2>
                     
                     <div class="form-group">
-                        <label for="photo">Photo principale</label>
-                        <input type="file" id="photo" name="photo" accept="image/*">
-                        <small>Formats acceptés : JPG, PNG, GIF (max 5Mo)</small>
+                        <label for="photos">Photos (plusieurs possibles)</label>
+                        <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
+                        <small>Formats acceptés : JPG, PNG, GIF (max 5Mo par image). Vous pouvez sélectionner plusieurs images.</small>
                     </div>
 
                     <div id="preview-container" class="preview-container" style="display: none;">

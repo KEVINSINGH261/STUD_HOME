@@ -52,7 +52,6 @@ class ProprietaireController extends Controller
      */
     public function createAnnonce(): void
     {
-        $this->view('proprietaire/creer-annonce', [
         $this->view('proprietaire/create-annonce', [
             'flash' => $this->getFlash()
         ]);
@@ -135,19 +134,6 @@ class ProprietaireController extends Controller
         // Si erreurs, retour au formulaire
         if (!$validator->isValid()) {
             $this->setFlash('error', $validator->getErrorsAsString());
-        $titre = $this->post('titre');
-        $description = $this->post('description');
-        $type = $this->post('type');
-        $adresse = $this->post('adresse');
-        $ville = $this->post('ville');
-        $codePostal = $this->post('code_postal');
-        $prix = $this->post('prix');
-        $surface = $this->post('surface');
-        $chambres = $this->post('chambres');
-        
-        // Validation
-        if (empty($titre) || empty($description) || empty($type) || empty($ville) || empty($prix)) {
-            $this->setFlash('error', 'Veuillez remplir tous les champs obligatoires.');
             $this->redirect('proprietaire/annonces/create');
             return;
         }
@@ -185,44 +171,12 @@ class ProprietaireController extends Controller
                 $this->setFlash('warning', 'Annonce créée mais aucune image n\'a pu être uploadée. Vérifiez le format et la taille.');
             } else {
                 $this->setFlash('success', 'Annonce créée avec succès. ' . $uploadedCount . ' image(s) uploadée(s).');
-                $this->redirect('proprietaire/annonces');
-        // Gestion de l'upload de photo
-        $photoPath = null;
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $photoPath = $this->uploadPhoto($_FILES['photo']);
-            
-            if (!$photoPath) {
-                $this->setFlash('error', 'Erreur lors de l\'upload de la photo.');
-                $this->redirect('proprietaire/annonces/create');
-                return;
             }
-        }
-        
-        $this->setFlash('success', 'Annonce créée avec succès (sans image).');
-        $this->redirect('proprietaire/annonces');
-        // Création de l'annonce
-        $annonceModel = $this->model('Annonce');
-        $annonceId = $annonceModel->create([
-            'proprietaire_id' => $this->getUserId(),
-            'titre' => $titre,
-            'description' => $description,
-            'type' => $type,
-            'adresse' => $adresse,
-            'ville' => $ville,
-            'code_postal' => $codePostal,
-            'prix' => $prix,
-            'surface' => $surface,
-            'nombre_chambres' => $chambres,
-            'photo' => $photoPath
-        ]);
-        
-        if ($annonceId) {
-            $this->setFlash('success', 'Annonce créée avec succès.');
-            $this->redirect('proprietaire/annonces');
         } else {
-            $this->setFlash('error', 'Erreur lors de la création de l\'annonce.');
-            $this->redirect('proprietaire/annonces/create');
+            $this->setFlash('success', 'Annonce créée avec succès (sans image).');
         }
+        
+        $this->redirect('proprietaire/annonces');
     }
     
     /**
@@ -345,15 +299,6 @@ class ProprietaireController extends Controller
         // Gestion des nouvelles photos
         if (isset($_FILES['photos']) && !empty($_FILES['photos']['name'][0])) {
             $this->uploadMultiplePhotos($_FILES['photos'], $id);
-            'nombre_chambres' => $this->post('chambres')
-        ];
-        
-        // Gestion de la nouvelle photo
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $photoPath = $this->uploadPhoto($_FILES['photo']);
-            if ($photoPath) {
-                $data['photo'] = $photoPath;
-            }
         }
         
         $result = $annonceModel->update($id, $data);

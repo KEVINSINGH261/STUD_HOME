@@ -28,7 +28,6 @@
                     <?php elseif ($_SESSION['user_role'] === 'proprietaire'): ?>
                         <li><a href="<?= APP_URL ?>/proprietaire/dashboard">Mon Espace</a></li>
                         <li><a href="<?= APP_URL ?>/proprietaire/annonces/create" class="btn-create-annonce">+ Créer une annonce</a></li>
-                        <li><a href="<?= APP_URL ?>/proprietaire/annonces">Mes Annonces</a></li>
                     <?php elseif ($_SESSION['user_role'] === 'admin'): ?>
                         <li><a href="<?= APP_URL ?>/admin/dashboard">Administration</a></li>
                     <?php endif; ?>
@@ -76,5 +75,4 @@
             }
         });
     </script>
-</header>
 </header>

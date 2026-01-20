@@ -24,10 +24,6 @@
                     </div>
                 <?php endif; ?>
                 
-                <form class="login-form" action="<?= APP_URL ?>/login/submit" method="POST">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="votre@email.com" class="form-input" required>
                 <form class="login-form" id="loginForm" action="<?= APP_URL ?>/login/submit" method="POST" onsubmit="return validateLoginForm(event)">
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -43,15 +39,12 @@
                     
                     <button type="submit" class="btn-submit">Se connecter</button>
                     
-                    <div class="form-group" style="text-align: right;">
                     <div class="form-group" style="text-align: center;">
                         <a href="<?= APP_URL ?>/forgot-password" class="forgot-password">Mot de passe oublié ?</a>                   
                     </div>
                 </form>
                 
                 <div class="form-footer">
-                    <button class="btn-secondary" onclick="location.href='<?= APP_URL ?>/login'">Sign in</button>
-                    <button class="btn-secondary-dark" onclick="location.href='<?= APP_URL ?>/register'">S'inscrire</button>
                     <button type="button" class="btn-submit" onclick="location.href='<?= APP_URL ?>/register'" style="width: 100%; background-color: #FF6B6B; color: white;">S'inscrire</button>
                 </div>
             </div>

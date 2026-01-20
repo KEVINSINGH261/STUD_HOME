@@ -87,15 +87,6 @@
 .navbar-menu {
     display: flex;
     list-style: none;
-    gap: 25px;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.navbar-menu {
-    display: flex;
-    list-style: none;
     gap: 30px;
     align-items: center;
     margin: 0;
@@ -110,7 +101,6 @@
     color: #666;
     font-weight: 400;
     font-size: 15px;
-    transition: all 0.3s;
     transition: color 0.3s;
     display: flex;
     align-items: center;
@@ -133,10 +123,6 @@
     border-radius: 20px;
 }
 
-.user-info span {
-    color: #333;
-    font-weight: 500;
-    font-size: 14px;
 .user-info span {
     color: #333;
     font-weight: 500;
@@ -316,8 +302,6 @@
     .navbar-menu {
         width: 280px;
     }
-}   
-    color: #ffffff;
 }
 
 /* === RESPONSIVE === */
