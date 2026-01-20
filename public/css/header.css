@@ -88,6 +88,15 @@
     display: flex;
     list-style: none;
     gap: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
     align-items: center;
     margin: 0;
     padding: 0;
@@ -102,6 +111,7 @@
     font-weight: 400;
     font-size: 15px;
     transition: all 0.3s;
+    transition: color 0.3s;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -127,6 +137,10 @@
     color: #333;
     font-weight: 500;
     font-size: 14px;
+.user-info span {
+    color: #333;
+    font-weight: 500;
+    font-size: 15px;
 }
 
 /* === BUTTONS === */
@@ -148,17 +162,20 @@
 .btn-primary {
     background: #FF6B6B;
     color: #ffffff !important;
+    color: #ffffff;
 }
 
 .btn-primary:hover {
     background: #ff5252;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    transform: translateY(-1px);
 }
 
 .btn-secondary {
     background: #f5f5f5;
     color: #333 !important;
+    color: #333;
 }
 
 .btn-secondary:hover {
@@ -172,6 +189,9 @@
     border: 2px solid #FF6B6B;
     border-radius: 8px;
     padding: 8px 20px;
+    color: #FF6B6B;
+    border: 2px solid #FF6B6B;
+    border-radius: 8px;
 }
 
 .btn-logout:hover {
@@ -297,3 +317,18 @@
         width: 280px;
     }
 }   
+    color: #ffffff;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: row;
+        height: auto;
+        padding: 15px 20px;
+    }
+    
+    .navbar-menu {
+        display: none;
+    }
+}

@@ -13,6 +13,13 @@
         <div class="container">
             <div class="page-header">
                 <h1>Mes Annonces</h1>
+                <a href="<?= APP_URL ?>/proprietaire/annonces/create" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Créer une annonce
+                </a>
             </div>
             
             <?php if (isset($flash) && $flash): ?>
@@ -38,6 +45,8 @@
                             <div class="annonce-image">
                                 <?php if (!empty($annonce['image_principale'])): ?>
                                     <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['image_principale']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
+                                <?php if ($annonce['photo']): ?>
+                                    <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['photo']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
                                 <?php else: ?>
                                     <div class="no-image">
                                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

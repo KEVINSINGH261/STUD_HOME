@@ -40,6 +40,10 @@
                         <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['image_principale']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
                     <?php else: ?>
                         <div class="no-image-large">Pas de photo disponible</div>
+                    <?php if ($annonce['photo']): ?>
+                        <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['photo']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>">
+                    <?php else: ?>
+                        <div class="no-image-large">📷 Pas de photo disponible</div>
                     <?php endif; ?>
                 </div>
                 
@@ -76,6 +80,11 @@
                                 <strong>Code postal</strong>
                                 <span><?= htmlspecialchars($annonce['code_postal']) ?></span>
                             </li>
+                            <li><strong>Type:</strong> <?= ucfirst($annonce['type']) ?></li>
+                            <li><strong>Surface:</strong> <?= $annonce['surface'] ?> m²</li>
+                            <li><strong>Chambres:</strong> <?= $annonce['nombre_chambres'] ?></li>
+                            <li><strong>Ville:</strong> <?= htmlspecialchars($annonce['ville']) ?></li>
+                            <li><strong>Code postal:</strong> <?= htmlspecialchars($annonce['code_postal']) ?></li>
                         </ul>
                     </div>
                     
@@ -93,12 +102,16 @@
                             <strong>Téléphone</strong>
                             <a href="tel:<?= htmlspecialchars($annonce['telephone']) ?>"><?= htmlspecialchars($annonce['telephone']) ?></a>
                         </p>
+                        <p><strong>Nom:</strong> <?= htmlspecialchars($annonce['prenom'] . ' ' . $annonce['nom']) ?></p>
+                        <p><strong>Email:</strong> <a href="mailto:<?= htmlspecialchars($annonce['email']) ?>"><?= htmlspecialchars($annonce['email']) ?></a></p>
+                        <p><strong>Téléphone:</strong> <?= htmlspecialchars($annonce['telephone']) ?></p>
                     </div>
                 </div>
             </div>
             
             <div class="annonce-description">
                 <h2>Description du logement</h2>
+                <h2>Description</h2>
                 <p><?= nl2br(htmlspecialchars($annonce['description'])) ?></p>
             </div>
             
@@ -106,6 +119,8 @@
                 <h2>Localisation</h2>
                 <p><strong>Adresse :</strong> <?= htmlspecialchars($annonce['adresse']) ?></p>
                 <p><strong>Code postal & Ville :</strong> <?= htmlspecialchars($annonce['code_postal']) ?> <?= htmlspecialchars($annonce['ville']) ?></p>
+                <p><?= htmlspecialchars($annonce['adresse']) ?></p>
+                <p><?= htmlspecialchars($annonce['code_postal']) ?> <?= htmlspecialchars($annonce['ville']) ?></p>
             </div>
             
             <div class="back-link">

@@ -16,6 +16,7 @@ spl_autoload_register(function ($class) {
         APP_PATH . '/core/',
         APP_PATH . '/controllers/',
         APP_PATH . '/models/',
+        APP_PATH . '/services/',
         APP_PATH . '/helpers/',
         APP_PATH . '/middlewares/'
     ];

@@ -29,6 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = url;
                 }
             });
+    // Confirmation avant suppression
+    const deleteButtons = document.querySelectorAll('[data-confirm]');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const message = this.getAttribute('data-confirm') || 'Êtes-vous sûr de vouloir supprimer cet élément ?';
+            if (!confirm(message)) {
+                e.preventDefault();
+            }
         });
     });
     
@@ -50,6 +58,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 showErrorNotification('Le mot de passe doit contenir au moins 8 caractères.');
                 password.focus();
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
+            
+            if (password !== passwordConfirm) {
+                e.preventDefault();
+                alert('Les mots de passe ne correspondent pas.');
+                return false;
+            }
+            
+            if (password.length < 8) {
+                e.preventDefault();
+                alert('Le mot de passe doit contenir au moins 8 caractères.');
                 return false;
             }
         });
@@ -205,3 +225,25 @@ function formatPrice(price) {
 }
 
 // Les fonctions de notification sont maintenant dans notifications.js
+/**
+ * Fonction pour afficher une notification
+ */
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `flash flash-${type}`;
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.zIndex = '9999';
+    notification.style.minWidth = '300px';
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(function() {
+        notification.style.opacity = '0';
+        setTimeout(function() {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}

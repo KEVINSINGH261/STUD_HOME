@@ -16,6 +16,8 @@ class AuthController extends Controller
         
         $this->view('auth/login', [
             'flash' => $this->getFlash()
+            'flash' => $this->getFlash(),
+            'email' => $_SESSION['login_email'] ?? ''
         ]);
     }
     
@@ -34,6 +36,7 @@ class AuthController extends Controller
         
         // Validation
         if (empty($email) || empty($password)) {
+            $_SESSION['login_email'] = $email;
             $this->setFlash('error', 'Veuillez remplir tous les champs.');
             $this->redirect('login');
             return;
@@ -49,10 +52,13 @@ class AuthController extends Controller
             $_SESSION['user_name'] = $user['prenom'] . ' ' . $user['nom'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role'] = $user['type'];
+            // Nettoyer l'email de login en cas de succès
+            unset($_SESSION['login_email']);
             
             $this->setFlash('success', 'Connexion réussie !');
             $this->redirectToDashboard();
         } else {
+            $_SESSION['login_email'] = $email;
             $this->setFlash('error', 'Email ou mot de passe incorrect.');
             $this->redirect('login');
         }
@@ -122,6 +128,18 @@ class AuthController extends Controller
         $errors = [];
         
         // Validation du type
+        $type = $this->post('type');
+        $nom = $this->post('nom');
+        $prenom = $this->post('prenom');
+        $email = $this->post('email');
+        $password = $this->post('password');
+        $passwordConfirm = $this->post('password_confirm');
+        $securityQuestion = $this->post('security_question');
+        $securityAnswer = $this->post('security_answer');
+        
+        // Validation de base
+        $errors = [];
+        
         if (empty($type) || !in_array($type, ['etudiant', 'proprietaire'])) {
             $errors[] = 'Veuillez sélectionner un type de compte.';
         }
@@ -160,6 +178,18 @@ class AuthController extends Controller
         }
         
         // Validation de la confirmation du mot de passe
+        if (empty($nom) || empty($prenom) || empty($email) || empty($password)) {
+            $errors[] = 'Tous les champs sont obligatoires.';
+        }
+        
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Email invalide.';
+        }
+        
+        if (strlen($password) < PASSWORD_MIN_LENGTH) {
+            $errors[] = 'Le mot de passe doit contenir au moins ' . PASSWORD_MIN_LENGTH . ' caractères.';
+        }
+        
         if ($password !== $passwordConfirm) {
             $errors[] = 'Les mots de passe ne correspondent pas.';
         }
@@ -196,6 +226,12 @@ class AuthController extends Controller
             }
         }
         
+        // Vérifier si l'email existe déjà
+        $utilisateurModel = $this->model('Utilisateur');
+        if ($utilisateurModel->emailExists($email)) {
+            $errors[] = 'Cet email est déjà utilisé.';
+        }
+        
         // Si erreurs, retour au formulaire
         if (!empty($errors)) {
             $this->setFlash('error', implode('<br>', $errors));
@@ -218,11 +254,25 @@ class AuthController extends Controller
             // Créer le profil spécifique
             if ($type === 'etudiant') {
                 $ecole = trim($this->post('ecole'));
+                $ecole = $this->post('ecole');
+                if (empty($ecole)) {
+                    $this->setFlash('error', 'L\'école est obligatoire pour les étudiants.');
+                    $this->redirect('register');
+                    return;
+                }
+                
                 $etudiantModel = $this->model('Etudiant');
                 $etudiantModel->createProfile($userId, $ecole);
                 
             } else {
                 $telephone = trim($this->post('telephone'));
+                $telephone = $this->post('telephone');
+                if (empty($telephone)) {
+                    $this->setFlash('error', 'Le téléphone est obligatoire pour les propriétaires.');
+                    $this->redirect('register');
+                    return;
+                }
+                
                 $proprietaireModel = $this->model('Proprietaire');
                 $proprietaireModel->createProfile($userId, $telephone);
             }
@@ -251,6 +301,7 @@ class AuthController extends Controller
     
     /**
      * Vérifie l'email et affiche la question de sécurité - Étape 2
+     * Envoie un email de réinitialisation de mot de passe - Étape 2
      */
     public function forgotPassword(): void
     {
@@ -281,6 +332,7 @@ class AuthController extends Controller
         if (!$user) {
             // Pour la sécurité, ne pas révéler si l'email existe ou non
             $this->setFlash('error', 'Aucun compte associé à cet email.');
+            $this->setFlash('success', 'Si cet email existe, vous recevrez un lien de réinitialisation.');
             $this->redirect('forgot-password');
             return;
         }
@@ -290,6 +342,21 @@ class AuthController extends Controller
         
         // Rediriger vers la page de question de sécurité
         $this->redirect('forgot-password-security');
+        // Créer un token de réinitialisation
+        $passwordResetModel = $this->model('PasswordReset');
+        $token = $passwordResetModel->createToken($email);
+        
+        // Envoyer l'email
+        $emailService = new EmailService();
+        $resetLink = APP_URL . '/reset-password?token=' . $token;
+        
+        if ($emailService->sendPasswordResetEmail($email, $token)) {
+            $this->setFlash('success', 'Un email de réinitialisation a été envoyé à ' . htmlspecialchars($email) . '. Vérifiez votre boîte de réception et les spams.');
+        } else {
+            $this->setFlash('error', 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer plus tard.');
+        }
+        
+        $this->redirect('forgot-password');
     }
     
     /**
@@ -369,6 +436,7 @@ class AuthController extends Controller
     
     /**
      * Affiche le formulaire de réinitialisation de mot de passe - Étape 4
+     * Affiche le formulaire de réinitialisation de mot de passe
      */
     public function showResetPassword(): void
     {
@@ -388,6 +456,22 @@ class AuthController extends Controller
             
             unset($_SESSION['reset_token'], $_SESSION['reset_token_time'], $_SESSION['reset_email']);
             $this->setFlash('error', 'Ce lien est expiré ou invalide.');
+        // Vérifier que le token est valide et pas expiré (1 heure)
+        $passwordResetModel = $this->model('PasswordReset');
+        $resetData = $passwordResetModel->validateToken($token);
+        
+        if (!$resetData) {
+            $this->setFlash('error', 'Ce lien de réinitialisation est expiré ou invalide.');
+            $this->redirect('login');
+            return;
+        }
+        
+        // Vérifier que l'utilisateur existe
+        $utilisateurModel = $this->model('Utilisateur');
+        $user = $utilisateurModel->getUserByEmail($resetData['email']);
+        
+        if (!$user) {
+            $this->setFlash('error', 'Utilisateur introuvable.');
             $this->redirect('login');
             return;
         }
@@ -395,12 +479,14 @@ class AuthController extends Controller
         $this->view('password-oublie/reset', [
             'token' => $token,
             'email' => $_SESSION['reset_email'],
+            'email' => $resetData['email'],
             'flash' => $this->getFlash()
         ]);
     }
     
     /**
      * Traite la réinitialisation du mot de passe - Étape 5
+     * Traite la réinitialisation du mot de passe
      */
     public function resetPassword(): void
     {
@@ -444,6 +530,9 @@ class AuthController extends Controller
         // Si erreurs, retour au formulaire
         if (!empty($errors)) {
             $this->setFlash('error', implode('<br>', $errors));
+        // Validation
+        if (empty($password) || empty($passwordConfirm)) {
+            $this->setFlash('error', 'Veuillez remplir tous les champs.');
             $this->redirect('reset-password?token=' . $token);
             return;
         }
@@ -454,11 +543,50 @@ class AuthController extends Controller
         if ($utilisateurModel->resetPassword($email, $password)) {
             // Nettoyer la session
             unset($_SESSION['reset_token'], $_SESSION['reset_token_time'], $_SESSION['reset_email']);
+        if ($password !== $passwordConfirm) {
+            $this->setFlash('error', 'Les mots de passe ne correspondent pas.');
+            $this->redirect('reset-password?token=' . $token);
+            return;
+        }
+        
+        if (strlen($password) < PASSWORD_MIN_LENGTH) {
+            $this->setFlash('error', 'Le mot de passe doit contenir au moins ' . PASSWORD_MIN_LENGTH . ' caractères.');
+            $this->redirect('reset-password?token=' . $token);
+            return;
+        }
+        
+        // Vérifier le token
+        $passwordResetModel = $this->model('PasswordReset');
+        $resetData = $passwordResetModel->validateToken($token);
+        
+        if (!$resetData) {
+            $this->setFlash('error', 'Ce lien de réinitialisation est expiré ou invalide.');
+            $this->redirect('login');
+            return;
+        }
+        
+        $email = $resetData['email'];
+        
+        // Vérifier que le nouveau mot de passe n'est pas identique à l'ancien
+        $utilisateurModel = $this->model('Utilisateur');
+        $user = $utilisateurModel->getUserByEmail($email);
+        
+        if ($user && password_verify($password, $user['mot_de_passe'])) {
+            $this->setFlash('error', 'Votre nouveau mot de passe ne doit pas être identique à l\'ancien.');
+            $this->redirect('reset-password?token=' . $token);
+            return;
+        }
+        
+        // Réinitialiser le mot de passe
+        if ($utilisateurModel->resetPassword($email, $password)) {
+            // Supprimer le token utilisé
+            $passwordResetModel->deleteToken($token);
             
             $this->setFlash('success', 'Votre mot de passe a été réinitialisé avec succès !');
             $this->redirect('login');
         } else {
             $this->setFlash('error', 'Erreur lors de la réinitialisation. Veuillez réessayer.');
+            $this->setFlash('error', 'Erreur lors de la réinitialisation du mot de passe.');
             $this->redirect('reset-password?token=' . $token);
         }
     }

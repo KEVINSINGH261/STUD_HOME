@@ -130,12 +130,15 @@
 
                 <!-- Listings Grid -->
                 <div class="listings-grid" id="annonces-container">
+                <div class="listings-grid">
                     <?php if (!empty($annonces)): ?>
                         <?php foreach ($annonces as $annonce): ?>
                             <article class="listing-card" onclick="location.href='<?= APP_URL ?>/annonces/details/<?= $annonce['id'] ?>'">
                                 <div class="card-image">
                                     <?php if (!empty($annonce['image_principale'])): ?>
                                         <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['image_principale']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <?php if (!empty($annonce['photo'])): ?>
+                                        <img src="<?= APP_URL ?>/<?= htmlspecialchars($annonce['photo']) ?>" alt="<?= htmlspecialchars($annonce['titre']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
                                     <?php else: ?>
                                         <div class="image-placeholder"></div>
                                     <?php endif; ?>
@@ -192,6 +195,13 @@
                     <?php if ($currentPage < $totalPages): ?>
                         <a href="<?= APP_URL ?>/annonces?page=<?= $currentPage + 1 ?>" class="page-link">Suivant &raquo;</a>
                     <?php endif; ?>
+                <?php if (!empty($annonces) && count($annonces) > 0): ?>
+                <div class="pagination">
+                    <a href="#page1" class="page-link active">1</a>
+                    <a href="#page2" class="page-link">2</a>
+                    <a href="#page3" class="page-link">3</a>
+                    <span class="page-dots">...</span>
+                    <a href="#page10" class="page-link">10</a>
                 </div>
                 <?php endif; ?>
             </div>
