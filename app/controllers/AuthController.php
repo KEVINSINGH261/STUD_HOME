@@ -260,8 +260,7 @@ class AuthController extends Controller
     }
     
     /**
-     * Vérifie l'email et affiche la question de sécurité - Étape 2
-     * Envoie un email de réinitialisation de mot de passe - Étape 2
+     * Envoie un email de réinitialisation de mot de passe
      */
     public function forgotPassword(): void
     {
@@ -291,24 +290,23 @@ class AuthController extends Controller
         
         if (!$user) {
             // Pour la sécurité, ne pas révéler si l'email existe ou non
-            $this->setFlash('error', 'Aucun compte associé à cet email.');
             $this->setFlash('success', 'Si cet email existe, vous recevrez un lien de réinitialisation.');
             $this->redirect('forgot-password');
             return;
         }
         
-        // Stocker l'email en session temporairement
-        $_SESSION['reset_email'] = $email;
-        
-        // Rediriger vers la page de question de sécurité
-        $this->redirect('forgot-password-security');
         // Créer un token de réinitialisation
         $passwordResetModel = $this->model('PasswordReset');
         $token = $passwordResetModel->createToken($email);
         
+        if (!$token) {
+            $this->setFlash('error', 'Erreur lors de la création du token. Veuillez réessayer.');
+            $this->redirect('forgot-password');
+            return;
+        }
+        
         // Envoyer l'email
         $emailService = new EmailService();
-        $resetLink = APP_URL . '/reset-password?token=' . $token;
         
         if ($emailService->sendPasswordResetEmail($email, $token)) {
             $this->setFlash('success', 'Un email de réinitialisation a été envoyé à ' . htmlspecialchars($email) . '. Vérifiez votre boîte de réception et les spams.');
@@ -320,82 +318,6 @@ class AuthController extends Controller
     }
     
     /**
-     * Affiche la question de sécurité - Étape 2
-     */
-    public function showSecurityQuestion(): void
-    {
-        if ($this->isAuthenticated()) {
-            $this->redirectToDashboard();
-        }
-        
-        // Vérifier qu'un email est en session
-        if (!isset($_SESSION['reset_email'])) {
-            $this->redirect('forgot-password');
-            return;
-        }
-        
-        $email = $_SESSION['reset_email'];
-        
-        // Récupérer la question de sécurité
-        $utilisateurModel = $this->model('Utilisateur');
-        $user = $utilisateurModel->getUserByEmail($email);
-        
-        if (!$user || empty($user['security_question'])) {
-            unset($_SESSION['reset_email']);
-            $this->setFlash('error', 'Impossible de récupérer la question de sécurité.');
-            $this->redirect('forgot-password');
-            return;
-        }
-        
-        $this->view('password-oublie/security-question', [
-            'email' => $email,
-            'security_question' => $user['security_question'],
-            'flash' => $this->getFlash()
-        ]);
-    }
-    
-    /**
-     * Vérifie la réponse à la question de sécurité - Étape 3
-     */
-    public function verifySecurityAnswer(): void
-    {
-        if (!$this->isPost()) {
-            $this->redirect('forgot-password');
-            return;
-        }
-        
-        if (!isset($_SESSION['reset_email'])) {
-            $this->redirect('forgot-password');
-            return;
-        }
-        
-        $email = $_SESSION['reset_email'];
-        $answer = $this->post('security_answer');
-        
-        if (empty($answer)) {
-            $this->setFlash('error', 'Veuillez entrer votre réponse.');
-            $this->redirect('forgot-password-security');
-            return;
-        }
-        
-        // Vérifier la réponse
-        $utilisateurModel = $this->model('Utilisateur');
-        if ($utilisateurModel->verifySecurityAnswer($email, $answer)) {
-            // Générer un token pour la réinitialisation
-            $token = bin2hex(random_bytes(32));
-            $_SESSION['reset_token'] = $token;
-            $_SESSION['reset_token_time'] = time();
-            
-            // Rediriger vers le formulaire de nouveau mot de passe
-            $this->redirect('reset-password?token=' . $token);
-        } else {
-            $this->setFlash('error', 'Réponse incorrecte.');
-            $this->redirect('forgot-password-security');
-        }
-    }
-    
-    /**
-     * Affiche le formulaire de réinitialisation de mot de passe - Étape 4
      * Affiche le formulaire de réinitialisation de mot de passe
      */
     public function showResetPassword(): void
