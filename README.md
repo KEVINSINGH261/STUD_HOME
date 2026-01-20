@@ -2,39 +2,55 @@
 
 Plateforme web de mise en relation entre étudiants cherchant un logement et propriétaires proposant des biens immobiliers.
 
-## 🎯 Description du Projet
+## Description du Projet
 
 STUD_HOME est une application web développée en **PHP natif** (sans framework) suivant l'architecture **MVC (Modèle-Vue-Contrôleur)**. Elle permet aux étudiants de rechercher des logements et aux propriétaires de publier leurs annonces.
 
-## 👥 Types d'Utilisateurs
+## Types d'Utilisateurs
 
 ### 1. Étudiants
-- ✅ Inscription avec école
-- 🔍 Recherche de logements (par ville, prix, type)
-- ❤️ Ajout d'annonces en favoris
-- 👤 Gestion de profil
+- Inscription avec école
+- Recherche de logements (par ville, prix, type)
+- Ajout d'annonces en favoris
+- Gestion de profil
 
 ### 2. Propriétaires
-- ✅ Inscription avec téléphone
-- ➕ Création d'annonces
-- ✏️ Modification/Suppression d'annonces
-- 📊 Gestion de leurs biens
+- Inscription avec téléphone
+- Création d'annonces
+- Modification/Suppression d'annonces
+- Gestion de leurs biens
 
 ### 3. Administrateur
-- 👥 Gestion des utilisateurs
-- 🏠 Validation/Suppression d'annonces
-- 📈 Statistiques de la plateforme
+- Gestion des utilisateurs
+- Validation/Suppression d'annonces
+- Statistiques de la plateforme
 
-## 🏗️ Architecture du Projet
+## Architecture du Projet
 
 ```
 STUD_HOME/
 ├── app/
-│   ├── core/              # Classes fondamentales (Router, Controller, Model, Database)
-│   ├── controllers/       # Contrôleurs (Auth, Home, Annonce, Etudiant, Proprietaire, Admin)
-│   ├── models/           # Modèles métier (Utilisateur, Etudiant, Proprietaire, Annonce, Favori)
-│   ├── helpers/          # Fonctions utilitaires
-│   └── middlewares/      # Middlewares (authentification, validation)
+│   ├── core/              # Classes fondamentales
+│   │   ├── Router.php       # Routeur d'application
+│   │   ├── Controller.php   # Contrôleur de base
+│   │   ├── Model.php        # Modèle de base (PDO)
+│   │   ├── Database.php     # Connexion base de données
+│   │   └── Validator.php    # Validation côté serveur
+│   ├── controllers/       # Contrôleurs
+│   │   ├── AuthController.php           # Authentification & mots de passe
+│   │   ├── HomeController.php           # Page d'accueil & équipe
+│   │   ├── AnnonceController.php        # Annonces publiques
+│   │   ├── EtudiantController.php       # Dashboard étudiant
+│   │   ├── ProprietaireController.php   # Dashboard propriétaire
+│   │   ├── AdminController.php          # Backoffice admin
+│   │   └── FooterController.php         # Pages légales/cookies
+│   └── models/           # Modèles métier
+│       ├── Utilisateur.php      # Gestion utilisateurs
+│       ├── Etudiant.php         # Profil étudiant
+│       ├── Proprietaire.php     # Profil propriétaire
+│       ├── Annonce.php          # Gestion annonces
+│       ├── Favori.php           # Système favoris
+│       └── PasswordReset.php    # Réinitialisation mot de passe
 │
 ├── config/
 │   ├── config.php        # Configuration générale
@@ -43,7 +59,9 @@ STUD_HOME/
 │
 ├── database/
 │   └── migrations/       # Scripts SQL
-│       └── create_database.sql
+│       ├── create_database.sql       # Création base de données
+│       ├── add_security_columns.sql  # Questions de sécurité
+│       └── add_multiple_images.sql   # Support multi-images
 │
 ├── public/               # Point d'entrée web (Document Root)
 │   ├── index.php        # Front Controller
@@ -56,21 +74,28 @@ STUD_HOME/
 │   └── uploads/         # Fichiers uploadés
 │       └── annonces/
 │
+├── PHPMailer-master/    # Bibliothèque envoi d'emails
+│   ├── src/             # Classes PHPMailer
+│   └── language/        # Traductions
+│
 ├── storage/
 │   └── logs/            # Logs d'application
 │
 └── views/               # Templates HTML
     ├── layout/          # Layout principal
     ├── partials/        # Composants (header, footer)
-    ├── home/            # Pages d'accueil
-    ├── auth/            # Authentification
-    ├── annonces/        # Annonces
-    ├── etudiant/        # Dashboard étudiant
-    ├── proprietaire/    # Dashboard propriétaire
-    └── admin/           # Backoffice admin
+    ├── home/            # Pages d'accueil & équipe
+    ├── auth/            # Authentification (login, register)
+    ├── password-oublie/ # Récupération mot de passe
+    ├── annonces/        # Liste & détails annonces
+    ├── etudiant/        # Dashboard & favoris étudiant
+    ├── proprietaire/    # Dashboard & gestion annonces
+    ├── admin/           # Backoffice admin
+    ├── lien-footer/     # Pages légales (cookies, CGU)
+    └── pages/           # Pages statiques
 ```
 
-## 🚀 Installation
+## Installation
 
 ### Prérequis
 - PHP 8.0 ou supérieur
@@ -132,7 +157,7 @@ ou
 http://studhome.local (si Virtual Host configuré)
 ```
 
-## 👤 Comptes de Test
+## Comptes de Test
 
 ### Administrateur
 - **Email:** admin@studhome.fr
@@ -146,77 +171,145 @@ http://studhome.local (si Virtual Host configuré)
 - **Email:** pierre.leroux@example.com
 - **Mot de passe:** owner123
 
-## 🔑 Fonctionnalités Principales
+## Fonctionnalités Principales
 
 ### Authentification
-- ✅ Inscription séparée (Étudiant/Propriétaire)
-- 🔐 Connexion sécurisée (hash password)
-- 🚪 Déconnexion
+- Inscription séparée (Étudiant/Propriétaire)
+- Question de sécurité à l'inscription
+- Connexion sécurisée (hash password bcrypt)
+- Récupération de mot de passe (question sécurité)
+- Vérification email unique (AJAX)
+- Déconnexion
 
 ### Gestion des Annonces
-- 📝 Création/Modification/Suppression (Propriétaires)
-- 🔍 Recherche multicritères (ville, prix, type)
-- 📷 Upload de photos
-- ❤️ Système de favoris (Étudiants)
+- Création/Modification/Suppression (Propriétaires)
+- Upload multiple de photos (10 images max)
+- Définition d'image principale
+- Suppression individuelle d'images
+- Recherche multicritères (ville, prix, type)
+- Système de favoris (Étudiants)
+- Validation par administrateur
 
 ### Administration
-- 👥 Gestion des utilisateurs
-- 🏠 Modération des annonces
-- 📊 Statistiques
+- Gestion des utilisateurs (suppression)
+- Modération des annonces (validation/suppression)
+- Statistiques de la plateforme
 
-## 🛠️ Technologies Utilisées
+### Autres Fonctionnalités
+- Gestion des préférences cookies
+- Pages légales (paramètres cookies)
+- Page équipe
+- Validation côté serveur (classe Validator)
+
+## Technologies Utilisées
 
 - **Backend:** PHP 8+ (POO strict)
 - **Base de données:** MySQL avec PDO
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Architecture:** MVC Pattern
+- **Frontend:** HTML5, CSS3, JavaScript vanilla
+- **Architecture:** MVC Pattern (PHP natif)
+- **Bibliothèques:**
+  - PHPMailer - Envoi d'emails (récupération mot de passe)
 - **Sécurité:** 
   - Password hashing (bcrypt)
-  - Protection XSS (htmlspecialchars)
+  - Questions de sécurité (récupération MDP)
+  - Protection XSS (htmlspecialchars + Validator)
+  - Protection CSRF (tokens)
   - Requêtes préparées (PDO)
-  - Validation des données
+  - Validation côté serveur (classe Validator)
+  - Upload sécurisé de fichiers
 
-## 📊 Base de Données
+## Base de Données
 
 ### Tables
-1. **utilisateurs** - Table parent (héritage)
+1. **utilisateurs** - Table parent avec question_securite
 2. **etudiants** - Profils étudiants (ecole)
 3. **proprietaires** - Profils propriétaires (telephone)
-4. **annonces** - Logements proposés
-5. **favoris** - Relation Étudiant-Annonce
+4. **annonces** - Logements proposés (multi-images)
+5. **annonce_images** - Images des annonces
+6. **favoris** - Relation Étudiant-Annonce
+7. **password_resets** - Tokens récupération (optionnel)
 
 ### Relations
 - Un étudiant/propriétaire **hérite de** utilisateur (1:1)
 - Un propriétaire **possède plusieurs** annonces (1:N)
 - Un étudiant **peut avoir plusieurs** favoris (N:M)
 
-## 📝 Routes Principales
+## Routes Principales
 
 ```
-/                           → Page d'accueil
-/login                      → Connexion
-/register                   → Inscription
-/annonces                   → Liste des annonces
-/annonces/details/{id}      → Détail d'une annonce
-/etudiant/dashboard         → Dashboard étudiant
-/proprietaire/dashboard     → Dashboard propriétaire
-/admin/dashboard            → Backoffice admin
+# Routes publiques
+/                                    → Page d'accueil
+/home                                → Page d'accueil
+/equipe                              → Page équipe
+
+# Authentification
+/login                               → Connexion
+/register                            → Inscription
+/register/check-email                → Vérification email (AJAX)
+/logout                              → Déconnexion
+
+# Récupération mot de passe
+/forgot-password                     → Formulaire récupération
+/forgot-password-security            → Question de sécurité
+/verify-security-answer              → Vérification réponse
+/reset-password                      → Nouveau mot de passe
+
+# Annonces (public)
+/annonces                            → Liste des annonces
+/annonces/search                     → Recherche
+/annonces/details/{id}               → Détail d'une annonce
+
+# Espace Étudiant
+/etudiant/dashboard                  → Dashboard
+/etudiant/favoris                    → Mes favoris
+/etudiant/favoris/add/{id}           → Ajouter favori
+/etudiant/favoris/remove/{id}        → Retirer favori
+/etudiant/profile                    → Mon profil
+/etudiant/profile/update             → Mise à jour profil
+
+# Espace Propriétaire
+/proprietaire/dashboard              → Dashboard
+/proprietaire/annonces               → Mes annonces
+/proprietaire/annonces/create        → Créer annonce
+/proprietaire/annonces/edit/{id}     → Modifier annonce
+/proprietaire/annonces/delete/{id}   → Supprimer annonce
+/proprietaire/annonces/image/delete/{id}     → Supprimer image
+/proprietaire/annonces/image/set-main/{id}   → Image principale
+/proprietaire/profile                → Mon profil
+
+# Espace Admin
+/admin/dashboard                     → Dashboard admin
+/admin/utilisateurs                  → Gestion utilisateurs
+/admin/utilisateurs/delete/{id}      → Supprimer utilisateur
+/admin/annonces                      → Gestion annonces
+/admin/annonces/validate/{id}        → Valider annonce
+/admin/annonces/delete/{id}          → Supprimer annonce
+/admin/stats                         → Statistiques
+
+# Pages légales
+/parametres-cookies                  → Gestion cookies
+/parametres-cookies/save             → Sauvegarder préférences
 ```
 
-## 🔒 Sécurité
+## Sécurité
 
-- ✅ Mots de passe hashés (bcrypt)
-- ✅ Protection contre les injections SQL (PDO préparé)
-- ✅ Protection XSS (sanitization)
-- ✅ Gestion des sessions sécurisée
-- ✅ Validation des données côté serveur
-- ✅ Contrôle d'accès par rôle (middleware)
+- Mots de passe hashés (bcrypt avec PASSWORD_DEFAULT)
+- Questions de sécurité (hashées) pour récupération MDP
+- Protection contre les injections SQL (requêtes préparées PDO)
+- Protection XSS (htmlspecialchars + classe Validator)
+- Protection CSRF (tokens de session)
+- Gestion des sessions sécurisée (regeneration ID)
+- Validation côté serveur (classe Validator complète)
+- Contrôle d'accès par rôle (vérification sessions)
+- Upload de fichiers sécurisé (validation type/taille MIME)
+- Vérification email unique (AJAX avant soumission)
+- Sanitization des données utilisateur
 
-## 📄 Licence
+## Licence
 
 Projet étudiant - Tous droits réservés
 
-## 👨‍💻 Développeurs
+## Développeurs
 
 STUD_HOME - Promotion 2025
 
