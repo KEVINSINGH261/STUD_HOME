@@ -78,4 +78,5 @@ return [
     // Pages footer - Liens légaux
     'parametres-cookies' => 'FooterController@parametresCookies',
     'parametres-cookies/save' => 'FooterController@saveCookiePreferences',
+    'protection-donnees' => 'FooterController@protectionDonnees',
 ];
