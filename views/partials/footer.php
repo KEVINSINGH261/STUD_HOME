@@ -6,7 +6,7 @@
                 <a href="<?= APP_URL ?>/equipe">À propos</a>
                 <a href="<?= APP_URL ?>/protection-donnees">Protections des Données</a>
                 <a href="#">Nous Contacter</a>
-                <a href="#">Recrutement</a>
+                <a href="<?= APP_URL ?>/faq">F.A.Q</a>
             </div>
         </div>
         

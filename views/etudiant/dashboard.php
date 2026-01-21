@@ -55,7 +55,7 @@ $prenom = isset($etudiant['prenom']) ? $etudiant['prenom'] : '';
                     <p class="card-description">Vos recherches récentes</p>
                 </a>
 
-                <a href="#" class="dashboard-card">
+                <a href="<?= APP_URL ?>/etudiant/settings" class="dashboard-card">
                     <div class="card-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="3"/>
@@ -64,17 +64,6 @@ $prenom = isset($etudiant['prenom']) ? $etudiant['prenom'] : '';
                     </div>
                     <h2 class="card-title">Parametres</h2>
                     <p class="card-description">Paramètres du compte</p>
-                </a>
-
-                <a href="<?= APP_URL ?>/annonces" class="dashboard-card">
-                    <div class="card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                    </div>
-                    <h2 class="card-title">Rechercher</h2>
-                    <p class="card-description">Trouver un logement</p>
                 </a>
             </div>
 

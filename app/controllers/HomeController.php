@@ -31,4 +31,12 @@ class HomeController extends Controller
     {
         $this->view('pages/equipe');
     }
+    
+    /**
+     * Page FAQ
+     */
+    public function faq(): void
+    {
+        $this->view('pages/faq');
+    }
 }

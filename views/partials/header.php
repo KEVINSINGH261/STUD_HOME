@@ -5,7 +5,8 @@
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
-                <a href="<?= APP_URL ?>">
+                <a href="<?= APP_URL ?>" style="display: flex; align-items: center; gap: 10px;">
+                    <img src="<?= APP_URL ?>/images/logo.png" alt="STUD'HOME Logo" style="height: 40px; width: auto;">
                     <h1>STUD'HOME</h1>
                 </a>
             </div>
@@ -24,7 +25,6 @@
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if ($_SESSION['user_role'] === 'etudiant'): ?>
                         <li><a href="<?= APP_URL ?>/etudiant/dashboard">Mon Espace</a></li>
-                        <li><a href="<?= APP_URL ?>/etudiant/favoris">Mes Favoris</a></li>
                     <?php elseif ($_SESSION['user_role'] === 'proprietaire'): ?>
                         <li><a href="<?= APP_URL ?>/proprietaire/dashboard">Mon Espace</a></li>
                         <li><a href="<?= APP_URL ?>/proprietaire/annonces/create" class="btn-create-annonce">+ Créer une annonce</a></li>

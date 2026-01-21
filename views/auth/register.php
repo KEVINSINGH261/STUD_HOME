@@ -125,10 +125,61 @@
                     
                     <div class="form-group" id="ecole-field">
                         <label for="ecole">École</label>
-                        <input type="text" id="ecole" name="ecole" placeholder="Votre école" class="form-input">
+                        <select id="ecole" name="ecole" class="form-input">
+                            <option value="">-- Sélectionnez votre école --</option>
+                            <option value="École Polytechnique">École Polytechnique</option>
+                            <option value="CentraleSupélec">CentraleSupélec</option>
+                            <option value="Mines ParisTech">Mines ParisTech</option>
+                            <option value="Télécom Paris">Télécom Paris</option>
+                            <option value="ENSTA Paris">ENSTA Paris</option>
+                            <option value="École des Ponts ParisTech">École des Ponts ParisTech</option>
+                            <option value="ENSAE Paris">ENSAE Paris</option>
+                            <option value="ISAE-SUPAERO">ISAE-SUPAERO</option>
+                            <option value="ISEP">ISEP</option>
+                            <option value="INSA Lyon">INSA Lyon</option>
+                            <option value="INSA Toulouse">INSA Toulouse</option>
+                            <option value="Centrale Nantes">Centrale Nantes</option>
+                            <option value="Centrale Lyon">Centrale Lyon</option>
+                            <option value="IMT Atlantique">IMT Atlantique</option>
+                            <option value="Grenoble INP">Grenoble INP</option>
+                            <option value="Arts et Métiers">Arts et Métiers</option>
+                            <option value="UTC Compiègne">UTC Compiègne</option>
+                            <option value="ENSEEIHT">ENSEEIHT</option>
+                            <option value="ESPCI Paris">ESPCI Paris</option>
+                            <option value="Télécom SudParis">Télécom SudParis</option>
+                            <option value="Mines Nancy">Mines Nancy</option>
+                            <option value="Mines Saint-Étienne">Mines Saint-Étienne</option>
+                            <option value="ENSIMAG">ENSIMAG</option>
+                            <option value="INSA Rennes">INSA Rennes</option>
+                            <option value="INSA Strasbourg">INSA Strasbourg</option>
+                            <option value="INSA Rouen">INSA Rouen</option>
+                            <option value="Supélec Gif">Supélec Gif</option>
+                            <option value="EPITA">EPITA</option>
+                            <option value="EPITECH">EPITECH</option>
+                            <option value="ECE Paris">ECE Paris</option>
+                            <option value="ESIEE Paris">ESIEE Paris</option>
+                            <option value="ENSAM">ENSAM</option>
+                            <option value="ESTP">ESTP</option>
+                            <option value="ESILV">ESILV</option>
+                            <option value="ISEN Lille">ISEN Lille</option>
+                            <option value="ISEN Brest">ISEN Brest</option>
+                            <option value="ESIGELEC">ESIGELEC</option>
+                            <option value="ENSEA">ENSEA</option>
+                            <option value="ENSIC">ENSIC</option>
+                            <option value="ENSGSI">ENSGSI</option>
+                            <option value="Polytech Paris-Saclay">Polytech Paris-Saclay</option>
+                            <option value="Polytech Lille">Polytech Lille</option>
+                            <option value="Polytech Nantes">Polytech Nantes</option>
+                            <option value="Polytech Grenoble">Polytech Grenoble</option>
+                            <option value="ENSGI">ENSGI</option>
+                            <option value="ENSIACET">ENSIACET</option>
+                            <option value="ENSCBP">ENSCBP</option>
+                            <option value="CPE Lyon">CPE Lyon</option>
+                            <option value="Autre">Autre</option>
+                        </select>
                     </div>
                     
-                    <div class="form-group" id="telephone-field" style="display:none;">
+                    <div class="form-group" id="telephone-field">
                         <label for="telephone">Téléphone</label>
                         <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78" class="form-input">
                     </div>
@@ -171,8 +222,7 @@
         student.addEventListener('change', function() {
             if(this.checked) {
                 ecoleField.style.display = 'block';
-                telephoneField.style.display = 'none';
-                document.getElementById('telephone').removeAttribute('required');
+                telephoneField.style.display = 'block';
                 document.getElementById('ecole').setAttribute('required', 'required');
             }
         });

@@ -11,9 +11,9 @@
      <?php include VIEWS_PATH . '/partials/header.php'; ?>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Le logement étudiant, enfin facile.</h1>
+    <section class="hero" style="background-image: url('<?= APP_URL ?>/images/image_accueil.jpg'); background-size: cover; background-position: center; position: relative; margin-bottom: 50px;">
+        <div class="hero-content" style="position: relative; z-index: 2;">
+            <h1 style="color: white;">Le logement étudiant, enfin facile.</h1>
             <form class="search-bar" action="<?= APP_URL ?>/annonces" method="GET">
                 <input type="text" name="search" placeholder="Trouver un logement" required>
                 <button type="submit">🔍</button>

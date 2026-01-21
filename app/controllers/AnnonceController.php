@@ -158,4 +158,28 @@ class AnnonceController extends Controller
             'flash' => $this->getFlash()
         ]);
     }
+    
+    /**
+     * Affiche toutes les images d'une annonce
+     */
+    public function images(int $id): void
+    {
+        $annonceModel = $this->model('Annonce');
+        $annonce = $annonceModel->findById($id);
+        
+        if (!$annonce) {
+            $this->setFlash('error', 'Annonce introuvable.');
+            $this->redirect('annonces');
+            return;
+        }
+        
+        // Récupérer toutes les images
+        $images = $annonceModel->getImages($id);
+        
+        $this->view('annonces/images', [
+            'annonce' => $annonce,
+            'images' => $images,
+            'flash' => $this->getFlash()
+        ]);
+    }
 }

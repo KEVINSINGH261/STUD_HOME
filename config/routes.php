@@ -32,6 +32,7 @@ return [
     'annonces' => 'AnnonceController@index',
     'annonces/search' => 'AnnonceController@search',
     'annonces/details/{id}' => 'AnnonceController@show',
+    'annonces/images/{id}' => 'AnnonceController@images',
     'annonces/report/{id}' => 'AnnonceController@report',
     
     // Demandes d'intérêt
@@ -46,6 +47,8 @@ return [
     'etudiant/favoris/remove/{id}' => 'EtudiantController@removeFavori',
     'etudiant/profile' => 'EtudiantController@profile',
     'etudiant/profile/update' => 'EtudiantController@updateProfile',
+    'etudiant/settings' => 'EtudiantController@settings',
+    'etudiant/settings/update' => 'EtudiantController@updateSettings',
     
     // Espace Propriétaire (authentifié)
     'proprietaire/dashboard' => 'ProprietaireController@dashboard',
@@ -74,6 +77,7 @@ return [
     
     // Pages statiques
     'equipe' => 'HomeController@equipe',
+    'faq' => 'HomeController@faq',
     
     // Pages footer - Liens légaux
     'parametres-cookies' => 'FooterController@parametresCookies',

@@ -25,8 +25,6 @@
                         <div class="annonce-card">
                             <?php if (!empty($favori['image_principale'])): ?>
                                 <img src="<?= APP_URL ?>/<?= htmlspecialchars($favori['image_principale']) ?>" alt="<?= htmlspecialchars($favori['titre']) ?>">
-                            <?php if ($favori['photo']): ?>
-                                <img src="<?= APP_URL ?>/<?= htmlspecialchars($favori['photo']) ?>" alt="<?= htmlspecialchars($favori['titre']) ?>">
                             <?php else: ?>
                                 <div class="no-image">📷 Pas de photo</div>
                             <?php endif; ?>

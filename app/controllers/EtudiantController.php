@@ -188,4 +188,70 @@ class EtudiantController extends Controller
         $this->setFlash('success', 'Profil mis à jour avec succès.');
         $this->redirect('etudiant/profile');
     }
+    
+    /**
+     * Affiche la page des paramètres
+     */
+    public function settings(): void
+    {
+        $utilisateurModel = $this->model('Utilisateur');
+        $user = $utilisateurModel->findById($this->getUserId());
+        
+        $etudiantModel = $this->model('Etudiant');
+        $etudiant = $etudiantModel->findByUserId($this->getUserId());
+        
+        $this->view('etudiant/settings', [
+            'user' => $user,
+            'etudiant' => $etudiant,
+            'flash' => $this->getFlash()
+        ]);
+    }
+    
+    /**
+     * Met à jour les paramètres du compte
+     */
+    public function updateSettings(): void
+    {
+        if (!$this->isPost()) {
+            $this->redirect('etudiant/settings');
+            return;
+        }
+
+        $utilisateurModel = $this->model('Utilisateur');
+        $errors = [];
+        
+        // Changement de mot de passe
+        $currentPassword = $this->post('current_password');
+        $newPassword = $this->post('new_password');
+        $confirmPassword = $this->post('confirm_password');
+        
+        if (!empty($currentPassword) || !empty($newPassword)) {
+            // Vérifier le mot de passe actuel
+            $user = $utilisateurModel->findById($this->getUserId());
+            
+            if (!password_verify($currentPassword, $user['mot_de_passe'])) {
+                $errors[] = 'Le mot de passe actuel est incorrect.';
+            } elseif (empty($newPassword)) {
+                $errors[] = 'Le nouveau mot de passe est requis.';
+            } elseif ($newPassword !== $confirmPassword) {
+                $errors[] = 'Les nouveaux mots de passe ne correspondent pas.';
+            } else {
+                $passwordValidation = $utilisateurModel->validatePassword($newPassword);
+                if (!$passwordValidation['valid']) {
+                    $errors = array_merge($errors, $passwordValidation['errors']);
+                } else {
+                    // Mettre à jour le mot de passe
+                    $data = ['mot_de_passe' => password_hash($newPassword, PASSWORD_DEFAULT)];
+                    $utilisateurModel->updateProfile($this->getUserId(), $data);
+                    $this->setFlash('success', 'Mot de passe modifié avec succès.');
+                }
+            }
+        }
+        
+        if (!empty($errors)) {
+            $this->setFlash('error', implode('<br>', $errors));
+        }
+        
+        $this->redirect('etudiant/settings');
+    }
 }
