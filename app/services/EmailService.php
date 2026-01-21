@@ -139,6 +139,35 @@ class EmailService
     }
     
     /**
+     * Envoyer un email personnalisé avec message texte
+     */
+    public function sendCustomEmail($recipientEmail, $subject, $messageText)
+    {
+        try {
+            // Réinitialiser le mailer pour éviter les doublons d'adresses
+            $this->mailer->clearAddresses();
+            
+            // Destinataire
+            $this->mailer->addAddress($recipientEmail);
+            
+            // Sujet
+            $this->mailer->Subject = $subject;
+            
+            // Corps de l'email en texte simple
+            $this->mailer->isHTML(false);
+            $this->mailer->Body = $messageText;
+            
+            // Envoi
+            $this->mailer->send();
+            return true;
+            
+        } catch (Exception $e) {
+            error_log("Erreur d'envoi d'email personnalisé : " . $this->mailer->ErrorInfo);
+            return false;
+        }
+    }
+
+    /**
      * Template HTML pour l'email de suppression de compte
      */
     private function getAccountDeletionTemplate($userName = null)

@@ -67,9 +67,11 @@ INSERT INTO `annonces` (`id`, `proprietaire_id`, `titre`, `description`, `type`,
 --
 
 CREATE TABLE `etudiants` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_id` int(11) NOT NULL,
-  `ecole` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `ecole` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -136,9 +138,11 @@ INSERT INTO `password_resets` (`id`, `email`, `token`, `expires_at`, `created_at
 --
 
 CREATE TABLE `proprietaires` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_id` int(11) NOT NULL,
-  `telephone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `telephone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -157,7 +161,7 @@ INSERT INTO `proprietaires` (`id`, `utilisateur_id`, `telephone`) VALUES
 --
 
 CREATE TABLE `utilisateurs` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prenom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -165,7 +169,9 @@ CREATE TABLE `utilisateurs` (
   `type` enum('etudiant','proprietaire','admin') COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_inscription` datetime DEFAULT CURRENT_TIMESTAMP,
   `security_question` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `security_answer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `security_answer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -180,6 +186,29 @@ CREATE TABLE IF NOT EXISTS annonces_images (
     FOREIGN KEY (`annonce_id`) REFERENCES `annonces`(`id`) ON DELETE CASCADE,
     INDEX `idx_annonce` (`annonce_id`),
     INDEX `idx_ordre` (`ordre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `signalements`
+--
+
+CREATE TABLE `signalements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `annonce_id` int(11) NOT NULL,
+  `utilisateur_id` int(11) NOT NULL,
+  `motif` enum('spam','arnaque','contenu_inapproprie','annonce_disparue','autre') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `statut` enum('nouveau','en_cours','resolu','clos') COLLATE utf8mb4_unicode_ci DEFAULT 'nouveau',
+  `date_signalement` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_signalement` (`annonce_id`,`utilisateur_id`),
+  KEY `idx_annonce` (`annonce_id`),
+  KEY `idx_utilisateur` (`utilisateur_id`),
+  KEY `idx_statut` (`statut`),
+  FOREIGN KEY (`annonce_id`) REFERENCES `annonces`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -331,6 +360,31 @@ ALTER TABLE `favoris`
 --
 ALTER TABLE `proprietaires`
   ADD CONSTRAINT `proprietaires_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `demandes_interet`
+--
+
+CREATE TABLE `demandes_interet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `annonce_id` int(11) NOT NULL,
+  `etudiant_id` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telephone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci,
+  `statut` enum('nouveau','vue','refuse','accepte') COLLATE utf8mb4_unicode_ci DEFAULT 'nouveau',
+  `date_demande` datetime DEFAULT CURRENT_TIMESTAMP,
+  `date_reponse` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_annonce` (`annonce_id`),
+  KEY `idx_etudiant` (`etudiant_id`),
+  KEY `idx_statut` (`statut`),
+  CONSTRAINT `demandes_interet_ibfk_1` FOREIGN KEY (`annonce_id`) REFERENCES `annonces` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `demandes_interet_ibfk_2` FOREIGN KEY (`etudiant_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

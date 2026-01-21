@@ -92,4 +92,18 @@ class Proprietaire extends Model
         
         return (int) $result['total'];
     }
+
+    /**
+     * Récupère les infos du propriétaire d'une annonce
+     */
+    public function findByAnnonce(int $annonceId): ?array
+    {
+        $sql = "SELECT u.*, p.telephone 
+                FROM utilisateurs u 
+                INNER JOIN proprietaires p ON u.id = p.utilisateur_id 
+                INNER JOIN annonces a ON u.id = a.proprietaire_id 
+                WHERE a.id = :annonce_id AND u.type = 'proprietaire'";
+        
+        return $this->queryOne($sql, ['annonce_id' => $annonceId]);
+    }
 }

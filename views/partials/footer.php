@@ -11,7 +11,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>© B1Dev. STUD'HOME</p>
+            <p>© 1Dev. STUD'HOME</p>
         </div>
     </div>
 </footer>

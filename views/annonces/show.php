@@ -32,6 +32,12 @@
                         </a>
                     <?php endif; ?>
                 <?php endif; ?>
+                
+                <?php if ($this->isAuthenticated()): ?>
+                    <a href="<?= APP_URL ?>/annonces/report/<?= $annonce['id'] ?>" class="btn-warning" title="Signaler cette annonce">
+                        🚩 Signaler
+                    </a>
+                <?php endif; ?>
             </div>
             
             <div class="annonce-content">
@@ -107,6 +113,40 @@
                 <p><strong>Adresse :</strong> <?= htmlspecialchars($annonce['adresse']) ?></p>
                 <p><strong>Code postal & Ville :</strong> <?= htmlspecialchars($annonce['code_postal']) ?> <?= htmlspecialchars($annonce['ville']) ?></p>
             </div>
+
+            <!-- Formulaire d'intérêt pour les étudiants -->
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] === 'etudiant'): ?>
+            <div class="demande-interet-section">
+                <h2>Intéressé(e) par ce logement ?</h2>
+                <p>Remplissez ce formulaire pour contacter le propriétaire</p>
+                
+                <form method="POST" action="<?= APP_URL ?>/demande-interet/create" class="demande-form">
+                    <input type="hidden" name="annonce_id" value="<?= $annonce['id'] ?>">
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="Votre email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telephone">Téléphone *</label>
+                        <input type="tel" id="telephone" name="telephone" required placeholder="Votre numéro de téléphone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Présentez-vous brièvement et posez vos questions..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Envoyer ma demande d'intérêt</button>
+                </form>
+            </div>
+            <?php elseif (!isset($_SESSION['user_id'])): ?>
+            <div class="demande-interet-section">
+                <h2>Intéressé(e) par ce logement ?</h2>
+                <p><a href="<?= APP_URL ?>/login">Connectez-vous</a> pour contacter le propriétaire</p>
+            </div>
+            <?php endif; ?>
             
             <div class="back-link">
                 <a href="<?= APP_URL ?>/annonces" class="btn-secondary">← Retour aux annonces</a>

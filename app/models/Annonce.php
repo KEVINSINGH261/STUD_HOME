@@ -93,12 +93,42 @@ class Annonce extends Model
             $params['prix_max'] = $filters['prix_max'];
         }
         
+        // Handle type as array (from checkboxes) or single value
         if (!empty($filters['type'])) {
-            $sql .= " AND a.type = :type";
-            $params['type'] = $filters['type'];
+            $typeArray = is_array($filters['type']) ? $filters['type'] : [$filters['type']];
+            $typeArray = array_filter($typeArray); // Remove empty values
+            
+            if (!empty($typeArray)) {
+                $placeholders = [];
+                foreach ($typeArray as $index => $type) {
+                    $key = "type_{$index}";
+                    $placeholders[] = ":{$key}";
+                    $params[$key] = $type;
+                }
+                $sql .= " AND a.type IN (" . implode(', ', $placeholders) . ")";
+            }
         }
         
-        $sql .= " ORDER BY a.date_creation DESC";
+        // Handle sorting
+        $sort = $filters['sort'] ?? 'pertinence';
+        switch ($sort) {
+            case 'prix_asc':
+                $sql .= " ORDER BY a.prix ASC";
+                break;
+            case 'prix_desc':
+                $sql .= " ORDER BY a.prix DESC";
+                break;
+            case 'surface_desc':
+                $sql .= " ORDER BY a.surface DESC";
+                break;
+            case 'recent':
+                $sql .= " ORDER BY a.date_creation DESC";
+                break;
+            case 'pertinence':
+            default:
+                $sql .= " ORDER BY a.date_creation DESC";
+                break;
+        }
         
         return $this->query($sql, $params);
     }
