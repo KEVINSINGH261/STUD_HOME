@@ -159,8 +159,8 @@ CREATE TABLE `utilisateurs` (
   `mot_de_passe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` enum('etudiant','proprietaire','admin') COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_inscription` datetime DEFAULT CURRENT_TIMESTAMP,
-  `security_question` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `security_answer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `security_question` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `security_answer` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

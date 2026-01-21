@@ -122,25 +122,6 @@
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="votre@email.com" class="form-input" required>
                     </div>
-
-                    <div class="security-section">
-                        <div class="form-group">
-                            <label for="security_question">Question de sécurité</label>
-                            <select name="security_question" id="security_question" class="form-select" required>
-                                <option value="" disabled selected>Choisissez une question...</option>
-                                <option value="Quel est le nom de votre premier animal ?">Quel est le nom de votre premier animal ?</option>
-                                <option value="Quelle est votre ville de naissance ?">Quelle est votre ville de naissance ?</option>
-                                <option value="Quel était le nom de votre école primaire ?">Quel était le nom de votre école primaire ?</option>
-                                <option value="Quelle est la marque de votre première voiture ?">Quelle est la marque de votre première voiture ?</option>
-                                <option value="Quel est le nom de jeune fille de votre mère ?">Quel est le nom de jeune fille de votre mère ?</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="security_answer">Votre réponse secrète</label>
-                            <input type="text" id="security_answer" name="security_answer" placeholder="Votre réponse" class="form-input" required>
-                        </div>
-                    </div>
                     
                     <div class="form-group" id="ecole-field">
                         <label for="ecole">École</label>

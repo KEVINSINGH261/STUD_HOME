@@ -118,8 +118,6 @@ class AuthController extends Controller
         $email = trim($this->post('email'));
         $password = $this->post('password');
         $passwordConfirm = $this->post('password_confirm');
-        $securityQuestion = $this->post('security_question');
-        $securityAnswer = trim($this->post('security_answer'));
         
         $utilisateurModel = $this->model('Utilisateur');
         
@@ -168,20 +166,6 @@ class AuthController extends Controller
             $errors[] = 'Les mots de passe ne correspondent pas.';
         }
         
-        // Validation de la question de sécurité
-        if (empty($securityQuestion)) {
-            $errors[] = 'Veuillez sélectionner une question de sécurité.';
-        }
-        
-        // Validation de la réponse de sécurité
-        if (empty($securityAnswer)) {
-            $errors[] = 'Veuillez répondre à la question de sécurité.';
-        } elseif (strlen($securityAnswer) < 2) {
-            $errors[] = 'La réponse à la question de sécurité doit contenir au moins 2 caractères.';
-        } elseif (strlen($securityAnswer) > 100) {
-            $errors[] = 'La réponse à la question de sécurité ne peut pas dépasser 100 caractères.';
-        }
-        
         // Validation spécifique selon le type
         if ($type === 'etudiant') {
             $ecole = trim($this->post('ecole'));
@@ -213,15 +197,13 @@ class AuthController extends Controller
             return;
         }
         
-        // Création de l'utilisateur avec la question de sécurité
+        // Création de l'utilisateur
         $userId = $utilisateurModel->register([
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
             'mot_de_passe' => $password,
-            'type' => $type,
-            'security_question' => $securityQuestion,
-            'security_answer' => $securityAnswer
+            'type' => $type
         ]);
         
         if ($userId) {
