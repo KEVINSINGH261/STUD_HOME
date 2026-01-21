@@ -223,7 +223,7 @@ class ProprietaireController extends Controller
             return;
         }
         
-        $data = [
+        $postData = [
             'titre' => $this->post('titre'),
             'description' => $this->post('description'),
             'type' => $this->post('type'),
