@@ -21,9 +21,14 @@ class ProprietaireController extends Controller
         $annonceModel = $this->model('Annonce');
         $annoncesCount = $annonceModel->count(['proprietaire_id' => $this->getUserId()]);
         
+        // Compter les demandes d'intérêt non vues
+        $demandeModel = $this->model('DemandeInteret');
+        $demandesCount = $demandeModel->countByStatutForProprietaire($this->getUserId(), 'nouveau');
+        
         $this->view('proprietaire/dashboard', [
             'proprietaire' => $proprietaire,
             'annoncesCount' => $annoncesCount,
+            'demandesCount' => $demandesCount,
             'flash' => $this->getFlash()
         ]);
     }

@@ -32,6 +32,12 @@ return [
     'annonces' => 'AnnonceController@index',
     'annonces/search' => 'AnnonceController@search',
     'annonces/details/{id}' => 'AnnonceController@show',
+    'annonces/report/{id}' => 'AnnonceController@report',
+    
+    // Demandes d'intérêt
+    'demande-interet/create' => 'DemandeInteretController@create',
+    'demande-interet/{id}' => 'DemandeInteretController@show',
+    'demande-interet/update-statut' => 'DemandeInteretController@updateStatut',
     
     // Espace Étudiant (authentifié)
     'etudiant/dashboard' => 'EtudiantController@dashboard',
@@ -53,6 +59,7 @@ return [
     'proprietaire/annonces/image/set-main/{id}' => 'ProprietaireController@setMainImage',
     'proprietaire/profile' => 'ProprietaireController@profile',
     'proprietaire/profile/update' => 'ProprietaireController@updateProfile',
+    'proprietaire/demandes-interet' => 'DemandeInteretController@list',
     
     // Espace Admin (authentifié + role admin)
     'admin/dashboard' => 'AdminController@dashboard',
@@ -61,6 +68,8 @@ return [
     'admin/annonces' => 'AdminController@annonces',
     'admin/annonces/validate/{id}' => 'AdminController@validateAnnonce',
     'admin/annonces/delete/{id}' => 'AdminController@deleteAnnonce',
+    'admin/signalements' => 'AdminController@signalements',
+    'admin/signalements/update-statut/{id}' => 'AdminController@updateSignalementStatut',
     'admin/stats' => 'AdminController@statistics',
     
     // Pages statiques
@@ -69,4 +78,5 @@ return [
     // Pages footer - Liens légaux
     'parametres-cookies' => 'FooterController@parametresCookies',
     'parametres-cookies/save' => 'FooterController@saveCookiePreferences',
+    'protection-donnees' => 'FooterController@protectionDonnees',
 ];

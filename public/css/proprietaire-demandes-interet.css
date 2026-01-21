@@ -1,0 +1,293 @@
+/* ========================================
+   STUD_HOME - Demandes d'Intérêt (Propriétaire)
+   Page de consultation des demandes d'intérêt
+   ======================================== */
+
+.demandes-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.demandes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.demandes-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--dark-color);
+}
+
+.demandes-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid var(--border-color);
+}
+
+.stat-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.stat-card-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.stat-card.active .stat-card-value {
+    color: var(--white);
+}
+
+.stat-card-label {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-top: 0.5rem;
+}
+
+.stat-card.active .stat-card-label {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.demandes-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.demande-card {
+    background: var(--white);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.demande-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+}
+
+.demande-card.nouveau {
+    border-left: 4px solid var(--warning-color);
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.demande-card.vue {
+    border-left: 4px solid var(--primary-color);
+}
+
+.demande-card.accepte {
+    border-left: 4px solid var(--success-color);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.demande-card.refuse {
+    border-left: 4px solid var(--danger-color);
+    background: rgba(255, 107, 107, 0.05);
+}
+
+.demande-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.demande-info {
+    flex: 1;
+}
+
+.demande-annonce {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.demande-etudiant {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.demande-contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.demande-contact a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.demande-contact a:hover {
+    opacity: 0.8;
+}
+
+.demande-statut {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.demande-statut.nouveau {
+    background: var(--warning-color);
+    color: var(--white);
+}
+
+.demande-statut.vue {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.demande-statut.accepte {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.demande-statut.refuse {
+    background: var(--danger-color);
+    color: var(--white);
+}
+
+.demande-message {
+    background: var(--light-color);
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    border-left: 3px solid var(--primary-color);
+}
+
+.demande-message p {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.demande-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.demande-actions form {
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.demande-actions select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--white);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.demande-actions select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.demande-actions button {
+    padding: 0.5rem 1.5rem;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.demande-actions button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.demande-date {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--secondary-color);
+    background: var(--white);
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+    border-left-color: var(--success-color);
+}
+
+.alert-error {
+    background: rgba(255, 107, 107, 0.1);
+    color: var(--danger-color);
+    border-left-color: var(--danger-color);
+}

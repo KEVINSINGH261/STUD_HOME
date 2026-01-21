@@ -4,14 +4,14 @@
             <div class="footer-links">
                 <a href="<?= APP_URL ?>/parametres-cookies">Paramètres cookies</a>
                 <a href="<?= APP_URL ?>/equipe">À propos</a>
-                <a href="#">Protections des Données</a>
+                <a href="<?= APP_URL ?>/protection-donnees">Protections des Données</a>
                 <a href="#">Nous Contacter</a>
                 <a href="#">Recrutement</a>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>© B1Dev. STUD'HOME</p>
+            <p>© 1Dev. STUD'HOME</p>
         </div>
     </div>
 </footer>

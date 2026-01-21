@@ -13,8 +13,8 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Trouvez votre logement étudiant idéal</h1>
-            <form class="search-bar" action="<?= APP_URL ?>/annonces" method="GET">
-                <input type="text" name="search" placeholder="Ville, quartier, code postal..." value="<?= $_GET['search'] ?? '' ?>">
+            <form class="search-bar" action="<?= APP_URL ?>/annonces/search" method="GET">
+                <input type="text" name="ville" placeholder="Ville, quartier, code postal..." value="<?= htmlspecialchars($filters['ville'] ?? '') ?>">
                 <button type="submit">🔍</button>
             </form>
         </div>
@@ -30,24 +30,30 @@
                     <span class="filter-reset" onclick="resetFilters()">Réinitialiser</span>
                 </h2>
 
-                <form action="<?= APP_URL ?>/annonces" method="GET" id="filterForm">
+                <form action="<?= APP_URL ?>/annonces/search" method="GET" id="filterForm">
+                    <!-- Ville -->
+                    <div class="filter-group">
+                        <h3>Localisation</h3>
+                        <input type="text" name="ville" placeholder="Ville, quartier..." value="<?= htmlspecialchars($filters['ville'] ?? '') ?>">
+                    </div>
+
                     <!-- Type de bien -->
                     <div class="filter-group">
                         <h3>Type de bien</h3>
                         <label>
-                            <input type="checkbox" name="type[]" value="appartement" <?= in_array('appartement', $_GET['type'] ?? []) ? 'checked' : '' ?>>
+                            <input type="checkbox" name="type[]" value="appartement" <?= in_array('appartement', (array)($filters['type'] ?? [])) ? 'checked' : '' ?>>
                             Appartement
                         </label>
                         <label>
-                            <input type="checkbox" name="type[]" value="studio" <?= in_array('studio', $_GET['type'] ?? []) ? 'checked' : '' ?>>
+                            <input type="checkbox" name="type[]" value="studio" <?= in_array('studio', (array)($filters['type'] ?? [])) ? 'checked' : '' ?>>
                             Studio
                         </label>
                         <label>
-                            <input type="checkbox" name="type[]" value="chambre" <?= in_array('chambre', $_GET['type'] ?? []) ? 'checked' : '' ?>>
+                            <input type="checkbox" name="type[]" value="chambre" <?= in_array('chambre', (array)($filters['type'] ?? [])) ? 'checked' : '' ?>>
                             Chambre
                         </label>
                         <label>
-                            <input type="checkbox" name="type[]" value="colocation" <?= in_array('colocation', $_GET['type'] ?? []) ? 'checked' : '' ?>>
+                            <input type="checkbox" name="type[]" value="colocation" <?= in_array('colocation', (array)($filters['type'] ?? [])) ? 'checked' : '' ?>>
                             Colocation
                         </label>
                     </div>
@@ -56,9 +62,9 @@
                     <div class="filter-group">
                         <h3>Prix (€/mois)</h3>
                         <div class="price-range">
-                            <input type="number" name="prix_min" placeholder="Min" min="0" value="<?= $_GET['prix_min'] ?? '' ?>">
+                            <input type="number" name="prix_min" placeholder="Min" min="0" value="<?= htmlspecialchars($filters['prix_min'] ?? '') ?>">
                             <span>-</span>
-                            <input type="number" name="prix_max" placeholder="Max" min="0" value="<?= $_GET['prix_max'] ?? '' ?>">
+                            <input type="number" name="prix_max" placeholder="Max" min="0" value="<?= htmlspecialchars($filters['prix_max'] ?? '') ?>">
                         </div>
                     </div>
 

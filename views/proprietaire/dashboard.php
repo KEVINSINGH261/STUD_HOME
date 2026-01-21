@@ -48,6 +48,19 @@ $prenom = isset($proprietaire['prenom']) ? $proprietaire['prenom'] : '';
                     <p class="card-description">Gérer votre profil</p>
                 </a>
 
+                <a href="<?= APP_URL ?>/proprietaire/demandes-interet" class="dashboard-card card-highlight">
+                    <div class="card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">Demandes d'intérêt</h2>
+                    <p class="card-description">Voir les demandes des étudiants</p>
+                    <?php if (isset($demandesCount) && $demandesCount > 0): ?>
+                        <span class="card-badge"><?= $demandesCount ?></span>
+                    <?php endif; ?>
+                </a>
+
                 <a href="#" class="dashboard-card">
                     <div class="card-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

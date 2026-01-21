@@ -74,6 +74,11 @@ abstract class Model
      */
     public function insert(array $data): int
     {
+        // Exclure l'id s'il n'a pas de valeur
+        if (isset($data['id']) && empty($data['id'])) {
+            unset($data['id']);
+        }
+        
         $columns = array_keys($data);
         $placeholders = array_map(fn($col) => ":{$col}", $columns);
         

@@ -119,97 +119,72 @@ class EtudiantController extends Controller
             $this->redirect('etudiant/profile');
             return;
         }
-        
+
         // Récupération des données
-        $postData = [
-            'nom' => $this->post('nom'),
-            'prenom' => $this->post('prenom'),
-            'email' => $this->post('email'),
-            'ecole' => $this->post('ecole'),
-            'password' => $this->post('password')
-        ];
+        $nom = trim($this->post('nom'));
+        $prenom = trim($this->post('prenom'));
+        $email = trim($this->post('email'));
+        $ecole = trim($this->post('ecole'));
+        $password = $this->post('password');
+
+        // Validation simple
+        $errors = [];
         
-        // Validation complète
-        $validator = new Validator($postData);
+        if (empty($nom) || strlen($nom) < 2 || strlen($nom) > 50) {
+            $errors[] = 'Nom invalide (2-50 caractères).';
+        }
         
-        $validator->required('nom', 'Nom')
-                  ->minLength('nom', 2, 'Nom')
-                  ->maxLength('nom', 50, 'Nom')
-                  ->regex('nom', '/^[a-zA-ZÀ-ÿ\s\-]+$/', 'Le nom ne doit contenir que des lettres, espaces et tirets.')
-                  
-                  ->required('prenom', 'Prénom')
-                  ->minLength('prenom', 2, 'Prénom')
-                  ->maxLength('prenom', 50, 'Prénom')
-                  ->regex('prenom', '/^[a-zA-ZÀ-ÿ\s\-]+$/', 'Le prénom ne doit contenir que des lettres, espaces et tirets.')
-                  
-                  ->required('email', 'Email')
-                  ->email('email')
-                  
-                  ->required('ecole', 'École')
-                  ->minLength('ecole', 2, 'École')
-                  ->maxLength('ecole', 100, 'École');
+        if (empty($prenom) || strlen($prenom) < 2 || strlen($prenom) > 50) {
+            $errors[] = 'Prénom invalide (2-50 caractères).';
+        }
         
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Email invalide.';
+        }
+        
+        if (empty($ecole) || strlen($ecole) < 2 || strlen($ecole) > 100) {
+            $errors[] = 'École invalide (2-100 caractères).';
+        }
+
         // Vérifier si l'email existe déjà pour un autre utilisateur
         $utilisateurModel = $this->model('Utilisateur');
-        $existingUser = $utilisateurModel->findByEmail($postData['email']);
+        $existingUser = $utilisateurModel->findByEmail($email);
         if ($existingUser && $existingUser['id'] != $this->getUserId()) {
-            $validator->addError('email', 'Cet email est déjà utilisé par un autre compte.');
+            $errors[] = 'Cet email est déjà utilisé par un autre compte.';
         }
-        
+
         // Validation du mot de passe (si fourni)
-        if (!empty($postData['password'])) {
-            $passwordValidation = $utilisateurModel->validatePassword($postData['password']);
+        if (!empty($password)) {
+            $passwordValidation = $utilisateurModel->validatePassword($password);
             if (!$passwordValidation['valid']) {
-                foreach ($passwordValidation['errors'] as $error) {
-                    $validator->addError('password', $error);
-                }
+                $errors = array_merge($errors, $passwordValidation['errors']);
             }
         }
-        
+
         // Si erreurs, retour au formulaire
-        if (!$validator->isValid()) {
-            $this->setFlash('error', $validator->getErrorsAsString());
+        if (!empty($errors)) {
+            $this->setFlash('error', implode('<br>', $errors));
             $this->redirect('etudiant/profile');
             return;
         }
-        
-        // Données validées
-        $validatedData = $validator->getValidatedData();
-        
+
         // Mise à jour de l'utilisateur
-        $data = [
-            'nom' => $validatedData['nom'],
-            'prenom' => $validatedData['prenom'],
-            'email' => $validatedData['email']
-        ];
-        
-        if (!empty($validatedData['password'])) {
-            $data['mot_de_passe'] = $validatedData['password'];
-        $nom = $this->post('nom');
-        $prenom = $this->post('prenom');
-        $email = $this->post('email');
-        $ecole = $this->post('ecole');
-        $password = $this->post('password');
-        
-        // Mise à jour de l'utilisateur
-        $utilisateurModel = $this->model('Utilisateur');
         $data = [
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email
         ];
-        
+
         if (!empty($password)) {
-            $data['mot_de_passe'] = $password;
+            $data['mot_de_passe'] = password_hash($password, PASSWORD_DEFAULT);
         }
-        
+
         $utilisateurModel->updateProfile($this->getUserId(), $data);
-        
+
         // Mise à jour de l'école
         $etudiantModel = $this->model('Etudiant');
-        $etudiantModel->updateEcole($this->getUserId(), $validatedData['ecole']);
         $etudiantModel->updateEcole($this->getUserId(), $ecole);
-        
+
         $this->setFlash('success', 'Profil mis à jour avec succès.');
         $this->redirect('etudiant/profile');
     }
