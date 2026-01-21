@@ -14,6 +14,13 @@ class FooterController {
     }
     
     /**
+     * Afficher la page de protection des données
+     */
+    public function protectionDonnees() {
+        require_once VIEWS_PATH . '/lien-footer/protection-donnees.php';
+    }
+    
+    /**
      * Sauvegarder les préférences de cookies
      */
     public function saveCookiePreferences() {

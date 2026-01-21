@@ -4,7 +4,7 @@
             <div class="footer-links">
                 <a href="<?= APP_URL ?>/parametres-cookies">Paramètres cookies</a>
                 <a href="<?= APP_URL ?>/equipe">À propos</a>
-                <a href="#">Protections des Données</a>
+                <a href="<?= APP_URL ?>/protection-donnees">Protections des Données</a>
                 <a href="#">Nous Contacter</a>
                 <a href="#">Recrutement</a>
             </div>
