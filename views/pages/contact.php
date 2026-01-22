@@ -27,7 +27,6 @@
         <div class="contact-info">
             <!-- Email Card -->
             <div class="info-card">
-                <div class="icon">📧</div>
                 <h3>Email</h3>
                 <p>
                     <a href="mailto:studhomefrance@gmail.com">studhomefrance@gmail.com</a>
@@ -39,7 +38,6 @@
 
             <!-- Address Card -->
             <div class="info-card">
-                <div class="icon">📍</div>
                 <h3>Notre siège</h3>
                 <p>
                     10 rue de Vanves<br>

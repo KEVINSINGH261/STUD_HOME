@@ -9,6 +9,7 @@ $prenom = isset($proprietaire['prenom']) ? $proprietaire['prenom'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stud'Home - Dashboard</title>
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/header.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/css/dashboard.css">
 </head>
 <body>

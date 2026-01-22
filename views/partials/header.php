@@ -1,6 +1,4 @@
-<head>
-    <link rel="stylesheet" href="<?= APP_URL ?>/css/header.css">
-</head>
+<link rel="stylesheet" href="<?= APP_URL ?>/css/header.css">
 <header class="header">
     <nav class="navbar">
         <div class="container">
