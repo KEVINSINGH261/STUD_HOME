@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stud'Home - Inscription</title>
     <link rel="stylesheet" href="<?= APP_URL ?>/css/register.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/password-toggle.css">
     <style>
         /* Styles pour la validation */
         .form-input.error {
@@ -236,5 +237,6 @@
             }
         });
     </script>
+    <script src="<?= APP_URL ?>/js/password-toggle.js"></script>
 </body>
 </html>

@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F.A.Q - STUD_HOME</title>
     <link rel="stylesheet" href="<?= APP_URL ?>/css/style.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/faq.css">
 </head>
 <body>
     <?php include VIEWS_PATH . '/partials/header.php'; ?>
     
-    <main style="background-color: #f4f4f4; min-height: 100vh; padding: 3rem 0;">
-        <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
-            <div style="background: white; padding: 3rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                <h1 style="color: #333; font-size: 2.5rem; margin-bottom: 1rem; text-align: center;">Foire Aux Questions (F.A.Q)</h1>
-                <p style="text-align: center; color: #666; margin-bottom: 3rem; font-size: 1.1rem;">Trouvez des réponses aux questions les plus fréquentes</p>
+    <main>
+        <div class="faq-container">
+            <div class="faq-content">
+                <div class="faq-header">
+                    <h1>Foire Aux Questions (F.A.Q)</h1>
+                    <p>Trouvez des réponses aux questions les plus fréquentes</p>
+                </div>
                 
                 <div class="faq-section">
                     <div class="faq-item">
@@ -82,102 +85,21 @@
                     <div class="faq-item">
                         <h3 class="faq-question">Comment protégez-vous mes données personnelles ?</h3>
                         <div class="faq-answer">
-                            <p>La protection de vos données est notre priorité. Consultez notre page <a href="<?= APP_URL ?>/protection-donnees" style="color: #FF6B6B; text-decoration: underline;">Protection des Données</a> pour en savoir plus sur nos pratiques en matière de confidentialité.</p>
+                            <p>La protection de vos données est notre priorité. Consultez notre page <a href="<?= APP_URL ?>/protection-donnees">Protection des Données</a> pour en savoir plus sur nos pratiques en matière de confidentialité.</p>
                         </div>
                     </div>
                 </div>
                 
-                <div style="margin-top: 3rem; padding: 2rem; background: #f5f5f5; border-radius: 8px; text-align: center;">
-                    <h3 style="color: #333; margin-bottom: 1rem;">Vous n'avez pas trouvé de réponse ?</h3>
-                    <p style="color: #666; margin-bottom: 1.5rem;">Notre équipe est là pour vous aider</p>
-                    <a href="#" style="display: inline-block; background: #FF6B6B; color: white; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 500;">Nous Contacter</a>
+                <div class="faq-contact-box">
+                    <h3>Vous n'avez pas trouvé de réponse ?</h3>
+                    <p>Notre équipe est là pour vous aider</p>
+                    <a href="<?= APP_URL ?>/contact">Nous Contacter</a>
                 </div>
             </div>
         </div>
     </main>
     
     <?php include VIEWS_PATH . '/partials/footer.php'; ?>
-    
-    <style>
-        .faq-section {
-            margin-top: 2rem;
-        }
-        
-        .faq-item {
-            margin-bottom: 1.5rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .faq-item:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .faq-question {
-            background: #f8f9fa;
-            padding: 1.25rem 1.5rem;
-            margin: 0;
-            color: #333;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-        }
-        
-        .faq-question:hover {
-            background: #e9ecef;
-        }
-        
-        .faq-question::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: #FF6B6B;
-            font-weight: 700;
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-item.active .faq-question::after {
-            content: '−';
-            transform: rotate(180deg);
-        }
-        
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            background: white;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 1.5rem;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .faq-answer p {
-            margin: 0;
-            color: #666;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8rem !important;
-            }
-            
-            .faq-question {
-                font-size: 1rem;
-                padding: 1rem;
-            }
-        }
-    </style>
     
     <script>
         // Toggle FAQ items

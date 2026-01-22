@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres du compte - STUD_HOME</title>
     <link rel="stylesheet" href="<?= APP_URL ?>/css/settings.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/password-toggle.css">
 </head>
 <body>
     <?php include VIEWS_PATH . '/partials/header.php'; ?>
@@ -76,5 +77,6 @@
     </main>
     
     <?php include VIEWS_PATH . '/partials/footer.php'; ?>
+    <script src="<?= APP_URL ?>/js/password-toggle.js"></script>
 </body>
 </html>

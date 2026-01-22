@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stud'Home - Administration</title>
     <link rel="stylesheet" href="<?= APP_URL ?>/css/admin.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/css/password-toggle.css">
 </head>
 <body>
     <?php include VIEWS_PATH . '/partials/header.php'; ?>
@@ -240,6 +241,10 @@
         // Gestion du modal d'ajout
         function openAddUserModal() {
             document.getElementById('addUserModal').style.display = 'flex';
+            // Initialiser les toggles de mot de passe pour les champs du modal
+            setTimeout(function() {
+                initPasswordToggle();
+            }, 100);
         }
         
         function closeAddUserModal() {
@@ -329,5 +334,6 @@
             });
         });
     </script>
+    <script src="<?= APP_URL ?>/js/password-toggle.js"></script>
 </body>
 </html>
