@@ -67,6 +67,7 @@ return [
     // Espace Admin (authentifié + role admin)
     'admin/dashboard' => 'AdminController@dashboard',
     'admin/utilisateurs' => 'AdminController@utilisateurs',
+    'admin/add-utilisateur' => 'AdminController@addUtilisateur',
     'admin/utilisateurs/delete/{id}' => 'AdminController@deleteUtilisateur',
     'admin/annonces' => 'AdminController@annonces',
     'admin/annonces/validate/{id}' => 'AdminController@validateAnnonce',
@@ -78,6 +79,7 @@ return [
     // Pages statiques
     'equipe' => 'HomeController@equipe',
     'faq' => 'HomeController@faq',
+    'contact' => 'HomeController@contact',
     
     // Pages footer - Liens légaux
     'parametres-cookies' => 'FooterController@parametresCookies',

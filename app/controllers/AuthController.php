@@ -332,6 +332,10 @@ class AuthController extends Controller
             return;
         }
         
+        // Stocker le token et l'email en session pour la validation
+        $_SESSION['reset_token'] = $token;
+        $_SESSION['reset_email'] = $resetData['email'];
+        
         $this->view('password-oublie/reset', [
             'token' => $token,
             'email' => $resetData['email'],
@@ -414,6 +418,10 @@ class AuthController extends Controller
         if ($utilisateurModel->resetPassword($email, $password)) {
             // Supprimer le token utilisé
             $passwordResetModel->deleteToken($token);
+            
+            // Nettoyer la session
+            unset($_SESSION['reset_token']);
+            unset($_SESSION['reset_email']);
             
             $this->setFlash('success', 'Votre mot de passe a été réinitialisé avec succès !');
             $this->redirect('login');

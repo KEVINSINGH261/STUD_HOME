@@ -5,7 +5,7 @@
                 <a href="<?= APP_URL ?>/parametres-cookies">Paramètres cookies</a>
                 <a href="<?= APP_URL ?>/equipe">À propos</a>
                 <a href="<?= APP_URL ?>/protection-donnees">Protections des Données</a>
-                <a href="#">Nous Contacter</a>
+                <a href="<?= APP_URL ?>/contact">Nous Contacter</a>
                 <a href="<?= APP_URL ?>/faq">F.A.Q</a>
             </div>
         </div>

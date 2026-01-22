@@ -102,7 +102,7 @@
                 <button class="modal-close" onclick="closeAddUserModal()">&times;</button>
             </div>
             
-            <form class="modal-form" action="<?= APP_URL ?>/register/submit" method="POST">
+            <form class="modal-form" action="<?= APP_URL ?>/admin/add-utilisateur" method="POST">
                 <div class="role-selection">
                     <label class="role-label">Type d'utilisateur :</label>
                     <div class="role-options">
@@ -130,39 +130,72 @@
                     <label for="modal-email">Email *</label>
                     <input type="email" id="modal-email" name="email" class="form-input" required>
                 </div>
-
-                <div class="security-section">
-                    <div class="form-group">
-                        <label for="modal-security-question">Question de sécurité *</label>
-                        <select name="security_question" id="modal-security-question" class="form-select" required>
-                            <option value="" disabled selected>Choisissez une question...</option>
-                            <option value="Quel est le nom de votre premier animal ?">Quel est le nom de votre premier animal ?</option>
-                            <option value="Quelle est votre ville de naissance ?">Quelle est votre ville de naissance ?</option>
-                            <option value="Quel était le nom de votre école primaire ?">Quel était le nom de votre école primaire ?</option>
-                            <option value="Quelle est la marque de votre première voiture ?">Quelle est la marque de votre première voiture ?</option>
-                            <option value="Quel est le nom de jeune fille de votre mère ?">Quel est le nom de jeune fille de votre mère ?</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="modal-security-answer">Réponse secrète *</label>
-                        <input type="text" id="modal-security-answer" name="security_answer" class="form-input" required>
-                    </div>
-                </div>
                 
                 <div class="form-group" id="modal-ecole-field">
-                    <label for="modal-ecole">École</label>
-                    <input type="text" id="modal-ecole" name="ecole" class="form-input">
+                    <label for="modal-ecole">École *</label>
+                    <select id="modal-ecole" name="ecole" class="form-input" required>
+                        <option value="">-- Sélectionnez une école --</option>
+                        <option value="École Polytechnique">École Polytechnique</option>
+                        <option value="CentraleSupélec">CentraleSupélec</option>
+                        <option value="Mines ParisTech">Mines ParisTech</option>
+                        <option value="Télécom Paris">Télécom Paris</option>
+                        <option value="ENSTA Paris">ENSTA Paris</option>
+                        <option value="École des Ponts ParisTech">École des Ponts ParisTech</option>
+                        <option value="ENSAE Paris">ENSAE Paris</option>
+                        <option value="ISAE-SUPAERO">ISAE-SUPAERO</option>
+                        <option value="ISEP">ISEP</option>
+                        <option value="INSA Lyon">INSA Lyon</option>
+                        <option value="INSA Toulouse">INSA Toulouse</option>
+                        <option value="Centrale Nantes">Centrale Nantes</option>
+                        <option value="Centrale Lyon">Centrale Lyon</option>
+                        <option value="IMT Atlantique">IMT Atlantique</option>
+                        <option value="Grenoble INP">Grenoble INP</option>
+                        <option value="Arts et Métiers">Arts et Métiers</option>
+                        <option value="UTC Compiègne">UTC Compiègne</option>
+                        <option value="ENSEEIHT">ENSEEIHT</option>
+                        <option value="ESPCI Paris">ESPCI Paris</option>
+                        <option value="Télécom SudParis">Télécom SudParis</option>
+                        <option value="Mines Nancy">Mines Nancy</option>
+                        <option value="Mines Saint-Étienne">Mines Saint-Étienne</option>
+                        <option value="ENSIMAG">ENSIMAG</option>
+                        <option value="INSA Rennes">INSA Rennes</option>
+                        <option value="INSA Strasbourg">INSA Strasbourg</option>
+                        <option value="INSA Rouen">INSA Rouen</option>
+                        <option value="Supélec Gif">Supélec Gif</option>
+                        <option value="EPITA">EPITA</option>
+                        <option value="EPITECH">EPITECH</option>
+                        <option value="ECE Paris">ECE Paris</option>
+                        <option value="ESIEE Paris">ESIEE Paris</option>
+                        <option value="ENSAM">ENSAM</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="ESILV">ESILV</option>
+                        <option value="ISEN Lille">ISEN Lille</option>
+                        <option value="ISEN Brest">ISEN Brest</option>
+                        <option value="ESIGELEC">ESIGELEC</option>
+                        <option value="ENSEA">ENSEA</option>
+                        <option value="ENSIC">ENSIC</option>
+                        <option value="ENSGSI">ENSGSI</option>
+                        <option value="Polytech Paris-Saclay">Polytech Paris-Saclay</option>
+                        <option value="Polytech Lille">Polytech Lille</option>
+                        <option value="Polytech Nantes">Polytech Nantes</option>
+                        <option value="Polytech Grenoble">Polytech Grenoble</option>
+                        <option value="ENSGI">ENSGI</option>
+                        <option value="ENSIACET">ENSIACET</option>
+                        <option value="ENSCBP">ENSCBP</option>
+                        <option value="CPE Lyon">CPE Lyon</option>
+                        <option value="Autre">Autre</option>
+                    </select>
                 </div>
                 
-                <div class="form-group" id="modal-telephone-field" style="display:none;">
+                <div class="form-group" id="modal-telephone-field">
                     <label for="modal-telephone">Téléphone</label>
-                    <input type="tel" id="modal-telephone" name="telephone" class="form-input">
+                    <input type="tel" id="modal-telephone" name="telephone" placeholder="06 12 34 56 78" class="form-input">
                 </div>
                 
                 <div class="form-group">
                     <label for="modal-password">Mot de passe *</label>
                     <input type="password" id="modal-password" name="password" placeholder="Minimum 8 caractères" class="form-input" required>
+                    <small class="form-hint">Minimum 8 caractères, dont 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</small>
                 </div>
                 
                 <div class="form-group">
@@ -244,11 +277,15 @@
         const modalOwner = document.getElementById('modal-owner');
         const modalEcoleField = document.getElementById('modal-ecole-field');
         const modalTelephoneField = document.getElementById('modal-telephone-field');
+        const modalEcoleInput = document.getElementById('modal-ecole');
+        const modalTelephoneInput = document.getElementById('modal-telephone');
         
         modalStudent.addEventListener('change', function() {
             if(this.checked) {
                 modalEcoleField.style.display = 'block';
-                modalTelephoneField.style.display = 'none';
+                modalTelephoneField.style.display = 'block';
+                modalEcoleInput.setAttribute('required', 'required');
+                modalTelephoneInput.removeAttribute('required');
             }
         });
         
@@ -256,6 +293,8 @@
             if(this.checked) {
                 modalEcoleField.style.display = 'none';
                 modalTelephoneField.style.display = 'block';
+                modalEcoleInput.removeAttribute('required');
+                modalTelephoneInput.setAttribute('required', 'required');
             }
         });
         

@@ -96,41 +96,156 @@ class EmailService
      */
     private function getPasswordResetTemplate($resetLink)
     {
+        $logoUrl = APP_URL . '/images/logo.png';
+        
         return "
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset='UTF-8'>
             <style>
-                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-                .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-                .button { display: inline-block; padding: 15px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
-                .footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
+                body { 
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+                    line-height: 1.6; 
+                    color: #333; 
+                    background-color: #f5f5f5;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container { 
+                    max-width: 600px; 
+                    margin: 40px auto; 
+                    background: #ffffff;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                }
+                .header { 
+                    background: linear-gradient(135deg, #FF6B6B 0%, #ff4757 100%); 
+                    color: white; 
+                    padding: 40px 30px; 
+                    text-align: center;
+                }
+                .logo {
+                    max-width: 150px;
+                    height: auto;
+                    margin-bottom: 20px;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 28px;
+                    font-weight: 600;
+                }
+                .header p {
+                    margin: 10px 0 0 0;
+                    font-size: 16px;
+                    opacity: 0.95;
+                }
+                .content { 
+                    background: #ffffff; 
+                    padding: 40px 30px;
+                }
+                .content h2 {
+                    color: #333;
+                    font-size: 22px;
+                    margin-top: 0;
+                    margin-bottom: 20px;
+                }
+                .content p {
+                    color: #666;
+                    font-size: 15px;
+                    margin: 15px 0;
+                }
+                .button-container {
+                    text-align: center;
+                    margin: 30px 0;
+                }
+                .button { 
+                    display: inline-block; 
+                    padding: 15px 40px; 
+                    background: #FF6B6B; 
+                    color: white !important; 
+                    text-decoration: none; 
+                    border-radius: 8px;
+                    font-weight: 600;
+                    font-size: 16px;
+                    transition: background 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+                }
+                .button:hover {
+                    background: #ff5252;
+                }
+                .info-box {
+                    background: #fff5f5;
+                    border-left: 4px solid #FF6B6B;
+                    padding: 15px 20px;
+                    margin: 25px 0;
+                    border-radius: 4px;
+                }
+                .info-box strong {
+                    color: #FF6B6B;
+                }
+                .link-box {
+                    background: #f8f9fa;
+                    padding: 15px;
+                    border-radius: 6px;
+                    margin: 20px 0;
+                    word-break: break-all;
+                }
+                .link-box a {
+                    color: #FF6B6B;
+                    font-size: 13px;
+                }
+                .divider {
+                    margin: 30px 0;
+                    border: none;
+                    border-top: 1px solid #e0e0e0;
+                }
+                .note {
+                    color: #999;
+                    font-size: 13px;
+                    font-style: italic;
+                }
+                .footer { 
+                    text-align: center; 
+                    padding: 20px 30px;
+                    background: #f8f9fa;
+                    color: #666; 
+                    font-size: 13px;
+                }
+                .footer a {
+                    color: #FF6B6B;
+                    text-decoration: none;
+                }
             </style>
         </head>
         <body>
             <div class='container'>
                 <div class='header'>
+                    <img src='$logoUrl' alt='Stud\\'Home Logo' class='logo'>
                     <h1>Stud'Home</h1>
                     <p>Réinitialisation de mot de passe</p>
                 </div>
                 <div class='content'>
                     <h2>Bonjour,</h2>
-                    <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
-                    <p>Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe :</p>
-                    <div style='text-align: center;'>
+                    <p>Vous avez demandé la réinitialisation de votre mot de passe sur <strong>Stud'Home</strong>.</p>
+                    <p>Pour créer un nouveau mot de passe sécurisé, cliquez sur le bouton ci-dessous :</p>
+                    <div class='button-container'>
                         <a href='$resetLink' class='button'>Réinitialiser mon mot de passe</a>
                     </div>
-                    <p><strong>Ce lien est valable pendant 1 heure.</strong></p>
-                    <p style='color: #666; font-size: 14px;'>Si le bouton ne fonctionne pas, copiez ce lien :<br>
-                    <a href='$resetLink'>$resetLink</a></p>
-                    <hr style='margin: 30px 0; border: none; border-top: 1px solid #ddd;'>
-                    <p style='color: #999; font-size: 13px;'>Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.</p>
+                    <div class='info-box'>
+                        <strong>⏱ Important :</strong> Ce lien est valable pendant <strong>1 heure</strong> pour des raisons de sécurité.
+                    </div>
+                    <p style='color: #999; font-size: 14px;'>Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :</p>
+                    <div class='link-box'>
+                        <a href='$resetLink'>$resetLink</a>
+                    </div>
+                    <hr class='divider'>
+                    <p class='note'>⚠️ Si vous n'avez pas demandé cette réinitialisation, ignorez cet email. Votre mot de passe restera inchangé.</p>
                 </div>
                 <div class='footer'>
-                    <p> 2025 Stud'Home - Tous droits réservés</p>
+                    <p>&copy; 2026 <a href='" . APP_URL . "'>Stud'Home</a> - Plateforme de logements étudiants</p>
+                    <p>Tous droits réservés</p>
                 </div>
             </div>
         </body>

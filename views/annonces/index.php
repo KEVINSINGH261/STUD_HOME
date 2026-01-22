@@ -10,9 +10,9 @@
     <?php include VIEWS_PATH . '/partials/header.php'; ?>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Trouvez votre logement étudiant idéal</h1>
+    <section class="hero" style="background-image: url('<?= APP_URL ?>/images/image_accueil.jpg'); background-size: cover; background-position: center; position: relative;">
+        <div class="hero-content" style="position: relative; z-index: 2;">
+            <h1 style="color: white;">Trouvez votre logement étudiant idéal</h1>
             <form class="search-bar" action="<?= APP_URL ?>/annonces/search" method="GET">
                 <input type="text" name="ville" placeholder="Ville, quartier, code postal..." value="<?= htmlspecialchars($filters['ville'] ?? '') ?>">
                 <button type="submit">🔍</button>

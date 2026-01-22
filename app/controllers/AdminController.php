@@ -94,14 +94,150 @@ class AdminController extends Controller
     }
     
     /**
+     * Ajoute un utilisateur (depuis le backoffice admin)
+     */
+    public function addUtilisateur(): void
+    {
+        if (!$this->isPost()) {
+            $this->redirect('admin/utilisateurs');
+            return;
+        }
+        
+        $type = trim($this->post('type'));
+        $nom = trim($this->post('nom'));
+        $prenom = trim($this->post('prenom'));
+        $email = trim($this->post('email'));
+        $password = $this->post('password');
+        $passwordConfirm = $this->post('password_confirm');
+        
+        $utilisateurModel = $this->model('Utilisateur');
+        
+        // Validation complète (même validation que l'inscription)
+        $errors = [];
+        
+        if (empty($type) || !in_array($type, ['etudiant', 'proprietaire'])) {
+            $errors[] = 'Veuillez sélectionner un type de compte.';
+        }
+        
+        // Validation du nom
+        $nomValidation = $utilisateurModel->validateName($nom, 'Nom');
+        if (!$nomValidation['valid']) {
+            $errors = array_merge($errors, $nomValidation['errors']);
+        }
+        
+        // Validation du prénom
+        $prenomValidation = $utilisateurModel->validateName($prenom, 'Prénom');
+        if (!$prenomValidation['valid']) {
+            $errors = array_merge($errors, $prenomValidation['errors']);
+        }
+        
+        // Validation de l'email
+        $emailValidation = $utilisateurModel->validateEmail($email);
+        if (!$emailValidation['valid']) {
+            $errors = array_merge($errors, $emailValidation['errors']);
+        } else {
+            // Vérifier si l'email existe déjà
+            if ($utilisateurModel->emailExists($email)) {
+                $errors[] = 'Cet email est déjà utilisé.';
+            }
+        }
+        
+        // Validation du mot de passe
+        if (empty($password)) {
+            $errors[] = 'Le mot de passe est obligatoire.';
+        } else {
+            $passwordValidation = $utilisateurModel->validatePassword($password);
+            if (!$passwordValidation['valid']) {
+                $errors = array_merge($errors, $passwordValidation['errors']);
+            }
+        }
+        
+        // Validation de la confirmation du mot de passe
+        if ($password !== $passwordConfirm) {
+            $errors[] = 'Les mots de passe ne correspondent pas.';
+        }
+        
+        // Validation spécifique selon le type
+        if ($type === 'etudiant') {
+            $ecole = trim($this->post('ecole'));
+            if (empty($ecole)) {
+                $errors[] = 'L\'école est obligatoire pour les étudiants.';
+            } elseif (strlen($ecole) < 2) {
+                $errors[] = 'Le nom de l\'école doit contenir au moins 2 caractères.';
+            } elseif (strlen($ecole) > 100) {
+                $errors[] = 'Le nom de l\'école ne peut pas dépasser 100 caractères.';
+            }
+        } else {
+            $telephone = trim($this->post('telephone'));
+            $phoneValidation = $utilisateurModel->validatePhone($telephone);
+            if (!$phoneValidation['valid']) {
+                $errors = array_merge($errors, $phoneValidation['errors']);
+            }
+        }
+        
+        // Si erreurs, retour au formulaire
+        if (!empty($errors)) {
+            $this->setFlash('error', implode('<br>', $errors));
+            $this->redirect('admin/utilisateurs');
+            return;
+        }
+        
+        // Création de l'utilisateur
+        $userId = $utilisateurModel->register([
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'mot_de_passe' => $password,
+            'type' => $type
+        ]);
+        
+        if ($userId) {
+            // Créer le profil spécifique
+            if ($type === 'etudiant') {
+                $ecole = trim($this->post('ecole'));
+                $etudiantModel = $this->model('Etudiant');
+                $etudiantModel->createProfile($userId, $ecole);
+                
+            } else {
+                $telephone = trim($this->post('telephone'));
+                $proprietaireModel = $this->model('Proprietaire');
+                $proprietaireModel->createProfile($userId, $telephone);
+            }
+            
+            $this->setFlash('success', 'Utilisateur ajouté avec succès !');
+        } else {
+            $this->setFlash('error', 'Erreur lors de la création de l\'utilisateur.');
+        }
+        
+        $this->redirect('admin/utilisateurs');
+    }
+    
+    /**
      * Supprime un utilisateur
      */
     public function deleteUtilisateur(int $id): void
     {
         $utilisateurModel = $this->model('Utilisateur');
+        
+        // Récupérer les informations de l'utilisateur avant suppression
+        $utilisateur = $utilisateurModel->findById($id);
+        
+        if (!$utilisateur) {
+            $this->setFlash('error', 'Utilisateur introuvable.');
+            $this->redirect('admin/utilisateurs');
+            return;
+        }
+        
+        // Supprimer l'utilisateur
         $result = $utilisateurModel->delete($id);
         
         if ($result) {
+            // Envoyer l'email de notification de suppression
+            require_once __DIR__ . '/../services/EmailService.php';
+            $emailService = new EmailService();
+            $userName = $utilisateur['prenom'] . ' ' . $utilisateur['nom'];
+            $emailService->sendAccountDeletionEmail($utilisateur['email'], $userName);
+            
             $this->setFlash('success', 'Utilisateur supprimé avec succès.');
         } else {
             $this->setFlash('error', 'Erreur lors de la suppression.');

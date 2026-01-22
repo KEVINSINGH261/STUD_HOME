@@ -39,4 +39,12 @@ class HomeController extends Controller
     {
         $this->view('pages/faq');
     }
+    
+    /**
+     * Page Contact
+     */
+    public function contact(): void
+    {
+        $this->view('pages/contact');
+    }
 }

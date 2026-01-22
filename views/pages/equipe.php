@@ -20,7 +20,7 @@
     <!-- Main Content -->
     <div class="container">
         <p class="intro-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Bienvenue chez 1DEV, une startup innovante spécialisée dans le développement d'applications web sur mesure. Notre mission est de transformer vos idées en solutions numériques performantes et intuitives. Avec une équipe passionnée de développeurs et designers, nous créons des plateformes qui répondent aux besoins réels des utilisateurs. Stud'Home est notre première réalisation majeure, une plateforme dédiée à faciliter la recherche de logements étudiants. Notre startup est composée de 6 membres talentueux et passionnés.
         </p>
 
         <!-- Team Grid -->
@@ -62,13 +62,13 @@
             </div>
         </div>
 
-        <!-- ISEP Section -->
+        <!-- 1DEV Section -->
         <div class="isep-section">
-            <div class="isep-image"></div>
+            <div class="isep-image" style="background-image: url('<?= APP_URL ?>/images/1DEV.png');"></div>
             <div class="isep-content">
-                <h2>ISEP</h2>
+                <h2>1DEV</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    1DEV est une startup ambitieuse fondée par une équipe de jeunes développeurs passionnés par la technologie et l'innovation. Notre vision est de révolutionner le développement web en créant des solutions sur mesure qui allient performance, design moderne et expérience utilisateur exceptionnelle. Nous accompagnons nos clients de la conception à la mise en production, en garantissant des applications web fiables, scalables et parfaitement adaptées à leurs besoins.
                 </p>
             </div>
         </div>
